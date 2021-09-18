@@ -1,4 +1,4 @@
-https://learn.hashicorp.com/tutorials/vault/getting-started-deploy?in=vault/getting-started
+# Init info https://learn.hashicorp.com/tutorials/vault/getting-started-deploy?in=vault/getting-started 
 ```
 $ touch docker-compose.yml
 $ mkdir -p volumes/{config,file,logs}
@@ -45,7 +45,7 @@ docker-compose up -d
 ```
 
 
-# Install vaule CLI https://www.vaultproject.io/docs/install
+# Install vault CLI https://www.vaultproject.io/docs/install
 export VAULT_ADDR='http://127.0.0.1:8200'
 export VAULT_TOKEN="s.XmpNPoi9sRhYtdKHaQhkHP6x"
 
