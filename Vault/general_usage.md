@@ -1,10 +1,15 @@
-# **Run the server**
-> Will be displayed Root token
+# **Run the dev server**
+> This will lock the console, so you need to open additional session
+```
+vault server -dev 
+```
+> Will be displayed Root token and seal keys
 ```
 export VAULT_ADDR='http://127.0.0.1:8200'
 export VAULT_DEV_ROOT_TOKEN_ID="s.0Rlzb1GgPUeDclNP1WhkomL4"
-export VAULT_TOKEN="s.4fUAl4ZRPZA4G2ZaMQMnfpG2"
+export VAULT_TOKEN="s.VtLSMmP3FEbdRVzMqZCOqxiY"
 vault login root
+vault status
 ```
 
 ## Opend another consol
@@ -35,6 +40,9 @@ vault kv put secret/hello foo=world bar=hello
 
 ## Get secret
 >vault kv get secret/hello
+>
+>vault read -field=foo jsec/general
+
 
 ## Get secret value directly
 >vault kv get -field=foo secret/hello

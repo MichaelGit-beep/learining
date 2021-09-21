@@ -49,4 +49,14 @@ docker-compose up -d
 export VAULT_ADDR='http://127.0.0.1:8200'
 export VAULT_TOKEN="s.XmpNPoi9sRhYtdKHaQhkHP6x"
 
-# Configure using CLI or webui
+> ## Configure using CLI or webui
+```
+export VAULT_ADDR='http://127.0.0.1:8200'
+vault operator init # Wll generate unseal keys and root token 
+vault operator unseal # Enter unseal keys
+vault status
+export VAULT_TOKEN="s.XmpNPoi9sRhYtdKHaQhkHP6x" # Put root token 
+###### vault can be sealed with - 
+# vault operator seal
+```
+> ## Access to web - HOSTNAME:8200
