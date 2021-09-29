@@ -1,4 +1,4 @@
-1. copy, content, set_fact, stdout
+1. ## copy, content, set_fact, stdout
 ```
 - become: yes
   hosts: main_master
