@@ -1,0 +1,144 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web3
+  name: web3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web3
+  template:
+    metadata:
+      labels:
+        app: web3
+    spec:
+      containers:
+      - image: akicontport/webapp:ver3
+        name: webapp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: web1
+  name: web1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: web1
+    spec:
+      containers:
+      - image: akicontport/webapp:ver1
+        name: webapp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: web2
+  name: web2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web2
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: web2
+    spec:
+      containers:
+      - image: akicontport/webapp:ver2
+        name: webapp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: web2
+  name: web2
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: web2
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: web1
+  name: web1
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: web1
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: web3
+  name: web3
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: web3
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: www.asgard.bc
+    http:
+      paths:
+      - path: /git
+        pathType: Prefix
+        backend:
+          service:
+            name: web1
+            port:
+              number: 80
+      - path: /artifactory
+        pathType: Prefix
+        backend:
+          service:
+            name: web2
+            port:
+              number: 80
+      - path: /wiki
+        pathType: Prefix
+        backend:
+          service:
+            name: web3
+            port:
+              number: 80

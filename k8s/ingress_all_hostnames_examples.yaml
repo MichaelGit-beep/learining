@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /git
+        pathType: Prefix
+        backend:
+          service:
+            name: web1
+            port:
+              number: 80
+      - path: /artifactory
+        pathType: Prefix
+        backend:
+          service:
+            name: web2
+            port:
+              number: 80
+      - path: /wiki
+        pathType: Prefix
+        backend:
+          service:
+            name: web3
+            port:
+              number: 80
