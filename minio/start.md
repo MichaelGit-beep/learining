@@ -11,9 +11,17 @@ minio/minio server /data --console-address ":9001"
 
 #  Run minio CLI 
 ```
-docker run -it --entrypoint=/bin/sh minio/mc
-mc config host add myminio http://192.168.77.101:9000 minio minio123
+$ docker run -it --entrypoint=/bin/sh minio/mc
+$ mc config host add myminio http://192.168.77.101:9000 minio minio123
+
+mc: Configuration written to `/root/.mc/config.json`. Please update your   access credentials.
+mc: Successfully created `/root/.mc/share`.
+mc: Initialized share uploads `/root/.mc/share/uploads.json` file.
+mc: Initialized share downloads `/root/.mc/share/downloads.json` file.
+
 ```
+> This will run Minio Client(mc) and add server assign it an alias - "myminio". With it credentials. 
+>
 > miniocli configuration guide
 >
 >https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-minio
@@ -21,6 +29,7 @@ mc config host add myminio http://192.168.77.101:9000 minio minio123
 # Usage 
 ```
 mc mb myminio/mybucket - MakeBucket, new bucket 
+mc tree myminio - list a tree of s3 server by alias
 mc ls myminio- list all buckets
 mc ls myminio/bucketname - list content of a bucket
 mc rb myminio/mybucket --force(if not empty) - removebucket
