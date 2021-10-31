@@ -22,3 +22,22 @@ ansible-playbook playbook.yml --limit hostname
 ```
 ansible-playbook plb.yml -e "ansible_host=10.0.0.94 ansible_user=redhat ansible_password=redhat ansible_become_pass=redhat"
 ```
+
+## 4. run task only one time - when you delegate the task to localhost, it will be run for every host in playbook scope, however it is possible to run it only once. 
+```
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+  - name: Here we download a file from internet to controller node only once using run_once
+    get_url:
+    url: http://download.videolan.org/pub/videolan/vlma/0.2.0/vlma-0.2.0-bin.tar.gz
+    dest: /tmp/
+    run_once: true
+    delegate_to:
+    - localhost
+  - name: Here we unarchive the downloaded file on remote machines.
+    unarchive:  
+      src: /tmp/vlma-0.2.0-bin.tar.gz
+      dest: /tmp/
+```
