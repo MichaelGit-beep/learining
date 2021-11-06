@@ -11,7 +11,7 @@
 >/etc/kubernetes/manifests/kube-scheduler.yaml
 >
 ### To each file add a string as a running option. After it reboot all k8s components
-> "- --feature-gates=PodDeletionCost=true 
+> \-   --feature-gates=PodDeletionCost=true 
 ```
 apiVersion: v1
 kind: Pod
