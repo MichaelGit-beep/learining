@@ -126,7 +126,7 @@ spec:
         backend:
           service:
             name: web1
-            port:
+            port: 
               number: 80
       - path: /artifactory
         pathType: Prefix
