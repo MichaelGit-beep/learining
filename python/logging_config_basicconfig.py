@@ -1,7 +1,8 @@
 import logging
 logging.basicConfig(
     level=logging.INFO,
-    handlers=[logging.FileHandler("D:\\logs.log"), logging.StreamHandler()]
+    handlers=[logging.FileHandler("D:\\logs.log"), logging.StreamHandler()],
+    format=f'[%(asctime)s] %(filename)s on line %(lineno)s: %(message)s )'
 )
 logging.debug('This is a debug message')
 logging.info('This is an info message')
