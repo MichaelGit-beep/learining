@@ -30,7 +30,9 @@ audit      debug      kv         list       monitor    operator   plugin     pri
 ## Check status of Vault server
 >vault status
 
-## Create secret
+## Create secret - Pay attention to existed secret path !!! 
+>vault secrets list
+>
 >write multiple secrets -->
 vault kv put secret/hello foo=notworld bar=nothello
 >
