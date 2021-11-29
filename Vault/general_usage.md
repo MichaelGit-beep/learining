@@ -41,11 +41,32 @@ vault kv put secret/hello foo=world bar=hello
 
 
 ## Get secret
->vault kv get secret/hello
->
->vault read -field=foo jsec/general
-
-
+> vault secrets list 
+```
+Path          Type         Accessor              Description
+----          ----         --------              -----------
+cubbyhole/    cubbyhole    cubbyhole_4e37dac8    per-token private secret storage
+identity/     identity     identity_af3c96a8     identity store
+secret/       kv           kv_1f0ebfe8           n/a
+sys/          system       system_4ddb4edc       system endpoints used for control, policy and debugging
+```
+> vault kv list secret
+```
+Keys
+----
+foo
+```
+> vault kv get secret/foo
+```
+=== Data ===
+Key    Value
+---    -----
+vaz    vaz
+```
+> vault kv get -field=vaz secret/foo
+```
+vaz
+```
 ## Get secret value directly
 >vault kv get -field=foo secret/hello
 
@@ -72,7 +93,19 @@ separate instance. Engines refered virtual filesystem.
 >vault kv put jsec/general var=value
 >
 >vault kv get jsec/secrets
+>
 >vault kv get jsec/general
+>
+## Check secret in a path
+> vault kv list jsec/
+```
+Keys
+----
+foo
+```
+> vault kv get jsec/foo
+> 
+> vault kv get -field=foo jsec/foo
 
 ## Get enabled engines list
 >vault secrets list
