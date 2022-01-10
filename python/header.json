@@ -1,0 +1,13 @@
+{
+    "Host": "bc-artifactory01",
+    "Connection": "keep-alive",
+    "Content-Length": "62",
+    "Accept": "application/json, text/plain, */*",
+    "X-Requested-With": "XMLHttpRequest",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",
+    "Content-Type": "application/json;charset=UTF-8",
+    "Origin": "http",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Cookie": "ACCESSTOKEN=eyJ2ZXIiOiIyIiwidHlwIjoiSldUIiwiYWxnIjoiUlMyNTYiLCJraWQiOiJkVFl5ZkZjU09Md3RjUjJ3Y2xOaXNoVHVjMXVJNmhsR25kbTJkbTg0ZFRBIn0.eyJleHQiOiJ7XCJycHBcIjp0cnVlLFwicnB1XCI6dHJ1ZSxcInNpZFwiOlwiUDYtT2d1TjNncXpQM1c0c1R2aTZBNnZIcjd5WFozbWtcIixcInJldm9jYWJsZVwiOnRydWUsXCJsbHRcIjoxNjQwNzg5MTM5NDE0fSIsInN1YiI6ImpmZmVAMDAwXC91c2Vyc1wvbWljaGFlbC52YXJlaWtpcyIsInNjcCI6ImFwcGxpZWQtcGVybWlzc2lvbnNcL3VzZXIiLCJhdWQiOiJqZmZlQDAwMCIsImlzcyI6ImpmZmVAMDAwIiwiZXhwIjoxNjQwNzkxOTEwLCJpYXQiOjE2NDA3OTAxMTAsImp0aSI6ImE3NWZjY2Q4LTU0NGUtNDhkMS1iMjQ4LWJiZmFkYTYzZDViNCJ9.R56mzoaLaxJrvGgdOtHdxW--OIGNLDSRoiSH0i6V3OjBTpfGtpZe_nY9TGXsCm_2djcS1qtbrPozUaLoGKqK4K5wY475U_FHbHIl768XMBK3vo9Ibtk5c-rzaK6smOPIy0pMQdShFHnJ96w3YI4DEBDGtdXasKJB1PUnhRz-zRDCzm00w_3jSnPqvLysp1-FYcMyDN3mnZkhg8Poo_BnhppzCJU-GmvXjfVHJs-_SqPQtNaDRaGtDsJDCivJf-dH2gWHk9Emvmerk7zww2ubdEOlaauhLyia_5TDN0mbqd_6OOU9FsOz_kagE77Ys8HbxaMv9ZL5b0O8j5HutoPW_A; REFRESHTOKEN=6c8fb7cf-d4e3-4f0f-bece-0f7984591aed"
+}
