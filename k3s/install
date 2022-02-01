@@ -10,7 +10,7 @@ https://get.k3s.io/
 sudo mkdir -p /var/lib/rancher/k3s/agent/images/
 sudo cp /root/k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 
-2. Move the K3s installation script and K3s binary files to the corresponding directory and grant executable permissions
+2. Change permission to k3s installation shell script and binary, then move k3s binary to /usr/local/bin
 sudo chmod a+x /root/k3s /root/k3s-install.sh
 sudo cp /root/k3s /usr/local/bin/
 
