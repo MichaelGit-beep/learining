@@ -20,6 +20,7 @@ kubectl get pods -n kruise-system
 ttlSecondsAfterFinished
 Run a BroadcastJob that each Pod computes a pi, with ttlSecondsAfterFinished set to 30. The job will be deleted in 30 seconds after it is finished.
 
+cat <<EOF | kubectl apply -f -
 apiVersion: apps.kruise.io/v1alpha1
 kind: BroadcastJob
 metadata:
@@ -35,3 +36,4 @@ spec:
   completionPolicy:
     type: Always
     ttlSecondsAfterFinished: 30
+EOF
