@@ -42,14 +42,28 @@ spec:
 status:
   loadBalancer: {}
 
---- 
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: minimal-ingress1
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/ingress.class: nginx
+  name: dashboard
+spec:
+  rules:
+  - host: dashboard.asgard.bc
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: newtest
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard-1
 spec:
   rules:
   - http:

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://www.fatalerrors.org/a/k3s-offline-installation-four-types.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>K3s offline installation - four types</title>
+    <meta name="keywords" content="Docker,Kubernetes,Container,k3s">
+    <meta name="description" content="preface K3s is a lightweight Kubernetes distribution. In the statistics of k3s downloads in 2020, k3s has been downloaded more than 1 million times worldwide and installed more than 20000 times a week, of which 30% of the downloads come from China...">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./K3s offline installation - four types_files/main.css">
+                
+        <script async="" src="./K3s offline installation - four types_files/analytics.js.download"></script><script src="./K3s offline installation - four types_files/hm.js.download"></script><script type="text/javascript" src="./K3s offline installation - four types_files/saved_resource" defer="" async=""></script><script> var vitag = vitag || {};</script>
+    </head>
+<body>
+<div class="header main mb15">
+    <a href="https://www.fatalerrors.org/" class="header__logo"><span class="color1">Fatal</span><span class="color2">Error</span>s</a>
+    <div class="header__nav"><a href="https://www.fatalerrors.org/">Home</a><a href="https://www.fatalerrors.org/a">Blogs</a><a href="https://www.fatalerrors.org/a/post-a-blog" class="post-blog">Post a blog</a></div>
+</div>
+
+<div class="nav main">
+                                <a href="https://www.fatalerrors.org/">Home</a>
+                                &gt;
+                            Detail page
+            </div>
+
+<div class="main main-split-line mb15"><!--
+ --><div class="content">
+            <h1 class="blog-title">K3s offline installation - four types</h1>
+    <div class="blog-content">
+
+        
+
+        <p>preface<br> K3s is a lightweight Kubernetes distribution. In the statistics of k3s downloads in 2020, k3s has been downloaded more than 1 million times worldwide and installed more than 20000 times a week, of which 30% of the downloads come from China. In China, many users have applied k3s to various edge computing and Internet of things devices. At the same time, it is also widely used in production line robots deployed in intelligent factories and some of the world's largest wind power plants.</p> 
+<p>For K3s in production environment, an insurmountable problem is offline installation. In your offline environment, you need to prepare the following three components:</p> 
+ 
+ <p>K3s installation script<br> K3s binary<br> K3s dependent image</p> 
+ 
+<p>The above three components can be accessed through the K3s Release page( https://github.com/k3s-io/k3s/releases )Download. If it is used in China, it is recommended to download it from http://mirror.cnrancher.com  Get these components.<br> The author believes that the focus of offline installation lies in the image part that K3s depends on, because the "installation script" and "binary" of K3s only need to be downloaded to the corresponding directory and then given the corresponding permissions, which is very simple. However, the installation method of the image that K3s depends on depends on whether you use manual deployment image or private image warehouse, and also depends on whether container or docker is used when the container runs.</p> 
+<p>For different combination forms, it can be divided into the following forms to realize offline installation:</p> 
+ 
+ <p>Container + manual deployment image mode<br> Docker + manual deployment image mode<br> Container + private image warehouse mode<br> Docker + private image warehouse</p> 
+ 
+<p>Container + manual deployment image mode<br> Suppose you have downloaded the K3s installation script (K3s install. SH), K3s binary (k3s) and K3s dependent image (k3s-airgap-images-amd64.tar) of the same version to the / root directory.</p> 
+<p>If the container you use is containerd at runtime, when you start K3s, it will check whether / var / lib / Ranger / K3s / agent / images / has an available image package. If so, import the image into the containerd image list. Therefore, we only need to download the K3s dependent image to / var / lib / Ranger / K3s / agent / images / directory, and then start K3s.</p> 
+<p>1. Import image to containerd image list<br> sudo mkdir -p /var/lib/rancher/k3s/agent/images/<br> sudo cp /root/k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/</p> 
+<p>2. Move the K3s installation script and K3s binary files to the corresponding directory and grant executable permissions<br> sudo chmod a+x /root/k3s /root/k3s-install.sh<br> sudo cp /root/k3s /usr/local/bin/</p> 
+<p>3. Install K3s<br> INSTALL_K3S_SKIP_DOWNLOAD=true /root/k3s-install.sh</p> 
+<p>After a moment, you can see that K3s has been started successfully:</p> 
+<blockquote class="code-block"><pre>root@k3s-docker:~# crictl images
+IMAGE                                      TAG                 IMAGE ID            SIZE
+docker.io/rancher/coredns-coredns          1.8.0               296a6d5035e2d       42.6MB
+docker.io/rancher/klipper-helm             v0.3.2              4be09ab862d40       146MB
+docker.io/rancher/klipper-lb               v0.1.2              897ce3c5fc8ff       6.46MB
+docker.io/rancher/library-busybox          1.31.1              1c35c44120825       1.44MB
+docker.io/rancher/library-traefik          1.7.19              aa764f7db3051       86.6MB
+docker.io/rancher/local-path-provisioner   v0.0.14             e422121c9c5f9       42MB
+docker.io/rancher/metrics-server           v0.3.6              9dd718864ce61       41.2MB
+docker.io/rancher/pause                    3.1                 da86e6ba6ca19       746kB
+
+root@k3s-docker:~# kubectl get pods -A
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS   AGE
+kube-system   local-path-provisioner-7c458769fb-zdg9z   1/1     Running     0          38s
+kube-system   coredns-854c77959c-696gk                  1/1     Running     0          38s
+kube-system   metrics-server-86cbb8457f-hs6vw           1/1     Running     0          38s
+kube-system   helm-install-traefik-4pgcr                0/1     Completed   0          38s
+kube-system   svclb-traefik-bq7wl                       2/2     Running     0          17s
+kube-system   traefik-6f9cbd9bd4-jccd7                  1/1     Running     0          17s
+</pre></blockquote> 
+<p>Docker + manual deployment image mode<br> Suppose you have downloaded the K3s installation script (K3s install. SH), K3s binary (k3s) and K3s dependent image (k3s-airgap-images-amd64.tar) of the same version to the / root directory.</p> 
+<p>Unlike containerd, when docker is used as a container to run, K3s will not import the image in / var / lib / Ranger / K3s / agent / images / directory when you start K3s. Therefore, before starting K3s, we need to manually import the K3s dependent images into the docker image list.</p> 
+<p>1. Import image to docker image list<br> sudo docker load -i /root/k3s-airgap-images-amd64.tar</p> 
+<p>2. Move the K3s installation script and K3s binary files to the corresponding directory and grant executable permissions<br> sudo chmod a+x /root/k3s /root/k3s-install.sh<br> sudo cp /root/k3s /usr/local/bin/</p> 
+<p>3. Install K3s<br> INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_EXEC='--docker' /root/k3s-install.sh</p> 
+<p>After a moment, you can see that K3s has been started successfully:</p> 
+<blockquote class="code-block"><pre>root@k3s-docker:~# docker images
+REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE
+rancher/klipper-helm             v0.3.2              4be09ab862d4        7 weeks ago         145MB
+rancher/coredns-coredns          1.8.0               296a6d5035e2        2 months ago        42.5MB
+rancher/library-busybox          1.31.1              1c35c4412082        7 months ago        1.22MB
+rancher/local-path-provisioner   v0.0.14             e422121c9c5f        7 months ago        41.7MB
+rancher/library-traefik          1.7.19              aa764f7db305        14 months ago       85.7MB
+rancher/metrics-server           v0.3.6              9dd718864ce6        14 months ago       39.9MB
+rancher/klipper-lb               v0.1.2              897ce3c5fc8f        19 months ago       6.1MB
+rancher/pause                    3.1                 da86e6ba6ca1        3 years ago         742kB
+
+root@k3s-docker:~# kubectl get pods -A
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS   AGE
+kube-system   metrics-server-86cbb8457f-8ckr6           1/1     Running     0          30s
+kube-system   local-path-provisioner-7c458769fb-vhkjr   1/1     Running     0          30s
+kube-system   helm-install-traefik-4b46c                0/1     Completed   0          31s
+kube-system   coredns-854c77959c-4ql8t                  1/1     Running     0          30s
+kube-system   svclb-traefik-kbtbx                       2/2     Running     0          27s
+kube-system   traefik-6f9cbd9bd4-rbm6k                  1/1     Running     0          27s
+</pre></blockquote> 
+<p>Container + private image warehouse mode<br> Suppose you have downloaded the K3s installation script (K3s install. SH) and K3s binary (k3s) of the same version to the / root directory. And the images required by K3s have been uploaded to the image warehouse (the address of the image warehouse in this example is: http://192.168.64.44:5000 ).  The list of images required for K3s can be obtained from k3s-images.txt on the K3s Release page.</p> 
+<p>1. Configure the K3s mirror warehouse</p> 
+<p>When you start K3s, the image will be pulled from docker.io by default. When using containerd container to run and install offline, we only need to configure the image warehouse address to the endpoint under docker.io. For more configuration instructions, please refer to the complete strategy for configuring containerd image warehouse or the K3s official document:</p> 
+<blockquote class="code-block"><pre>https://docs.rancher.cn/docs/k ... ndex/
+sudo mkdir -p /etc/rancher/k3s
+sudo cat &gt;&gt; /etc/rancher/k3s/registries.yaml &lt;&lt;EOF
+mirrors:
+"docker.io":
+endpoint:
+  - "http://192.168.64.44:5000"
+  - "https://registry-1.docker.io"
+EOF
+</pre></blockquote> 
+<p>2. Move the K3s installation script and K3s binary files to the corresponding directory and grant executable permissions</p> 
+<blockquote class="code-block"><pre>sudo chmod a+x /root/k3s /root/k3s-install.sh
+sudo cp /root/k3s /usr/local/bin/
+</pre></blockquote> 
+<p>3. Install K3s</p> 
+<blockquote class="code-block"><pre>INSTALL_K3S_SKIP_DOWNLOAD=true /root/k3s-install.sh
+</pre></blockquote> 
+<p>After a moment, you can see that K3s has been started successfully:</p> 
+<blockquote class="code-block"><pre>root@k3s-containerd:~# crictl images
+IMAGE                                      TAG                 IMAGE ID            SIZE
+docker.io/rancher/coredns-coredns          1.8.0               296a6d5035e2d       12.9MB
+docker.io/rancher/klipper-helm             v0.3.2              4be09ab862d40       50.7MB
+docker.io/rancher/klipper-lb               v0.1.2              897ce3c5fc8ff       2.71MB
+docker.io/rancher/library-traefik          1.7.19              aa764f7db3051       24MB
+docker.io/rancher/local-path-provisioner   v0.0.14             e422121c9c5f9       13.4MB
+docker.io/rancher/metrics-server           v0.3.6              9dd718864ce61       10.5MB
+docker.io/rancher/pause                    3.1                 da86e6ba6ca19       326kB
+
+root@k3s-containerd:~# kubectl get pods -A
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS   AGE
+kube-system   local-path-provisioner-7c458769fb-7w8hb   1/1     Running     0          37s
+kube-system   coredns-854c77959c-f8m2n                  1/1     Running     0          37s
+kube-system   helm-install-traefik-9lbrx                0/1     Completed   0          38s
+kube-system   svclb-traefik-x8f6f                       2/2     Running     0          29s
+kube-system   metrics-server-86cbb8457f-f7lb7           1/1     Running     0          37s
+kube-system   traefik-6f9cbd9bd4-4s66r                  1/1     Running     0          29s
+</pre></blockquote> 
+<p>Docker + private image warehouse</p> 
+ 
+ <p>Suppose you have downloaded the K3s installation script (K3s install. SH) and K3s binary (k3s) of the same version to the / root directory. And the images required by K3s have been uploaded to the image warehouse (the address of the image warehouse in this example is: http://192.168.64.44:5000 ).  The list of images required for K3s can be obtained from k3s-images.txt on the K3s Release page.</p> 
+ 
+<p>1. Configure the K3s mirror warehouse</p> 
+<p>Docker does not support containerd. You can modify the corresponding endpoint of docker.io (the default is https://registry-1.docker.io )To indirectly modify the address of the default image warehouse. However, in docker, you can configure registry mirrors to obtain K3s images from other image warehouses. After this configuration, we will first pull the image from the address configured by registry mirrors. If we can't get it, we will get the image from the default docker.io, so as to meet our needs.</p> 
+<blockquote class="code-block"><pre>cat &gt;&gt; /etc/docker/daemon.json &lt;&lt;EOF
+{
+"registry-mirrors": ["http://192.168.64.44:5000"]
+}
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+</pre></blockquote> 
+<p>2. Move the K3s installation script and K3s binary files to the corresponding directory and grant executable permissions</p> 
+<blockquote class="code-block"><pre>sudo chmod a+x /root/k3s /root/k3s-install.sh
+sudo cp /root/k3s /usr/local/bin/
+</pre></blockquote> 
+<p>3. Install K3s</p> 
+<blockquote class="code-block"><pre>INSTALL_K3S_SKIP_DOWNLOAD=true INSTALL_K3S_EXEC='--docker' /root/k3s-install.sh
+</pre></blockquote> 
+<p>After a moment, you can see that K3s has been started successfully:</p> 
+<blockquote class="code-block"><pre>root@k3s-docker:~# docker images
+REPOSITORY                       TAG                 IMAGE ID            CREATED             SIZE
+rancher/klipper-helm             v0.3.2              4be09ab862d4        7 weeks ago         145MB
+rancher/coredns-coredns          1.8.0               296a6d5035e2        2 months ago        42.5MB
+rancher/local-path-provisioner   v0.0.14             e422121c9c5f        7 months ago        41.7MB
+rancher/library-traefik          1.7.19              aa764f7db305        14 months ago       85.7MB
+rancher/metrics-server           v0.3.6              9dd718864ce6        14 months ago       39.9MB
+rancher/klipper-lb               v0.1.2              897ce3c5fc8f        19 months ago       6.1MB
+rancher/pause                    3.1                 da86e6ba6ca1        3 years ago         742kB
+
+root@k3s-docker:~# kubectl get pods -A
+NAMESPACE     NAME                                      READY   STATUS      RESTARTS   AGE
+kube-system   helm-install-traefik-bcclh                0/1     Completed   0          33s
+kube-system   coredns-854c77959c-kp85f                  1/1     Running     0          33s
+kube-system   metrics-server-86cbb8457f-85fpd           1/1     Running     0          33s
+kube-system   local-path-provisioner-7c458769fb-r5nkw   1/1     Running     0          33s
+kube-system   svclb-traefik-rbmhk                       2/2     Running     0          24s
+kube-system   traefik-6f9cbd9bd4-k6t9n                  1/1     Running     0          24s
+</pre></blockquote> 
+<p>Postscript<br> The manual deployment image method is more suitable for small-scale installation and a small number of nodes. Private image warehouse is more suitable for clusters with large scale and many nodes. The docker registry in this article is built in the simplest way. Docker run - D - P 5000:5000 -- restart = always -- name registry: 2. You may need to modify some parameters about registry due to different building methods of image warehouse in your environment.</p>
+
+        
+
+        <p class="blog-summary__author">
+            Posted by <b>zhushuyun</b>
+                        at <i>Nov 02, 2021 - 3:16 AM</i>
+                        <span class="tags">Tag:
+                                <a href="https://www.fatalerrors.org/tag/docker">Docker</a>
+                                <a href="https://www.fatalerrors.org/tag/kubernetes">Kubernetes</a>
+                                <a href="https://www.fatalerrors.org/tag/container">Container</a>
+                                <a href="https://www.fatalerrors.org/tag/k3s">k3s</a>
+                            </span>
+                    </p>
+    </div>
+
+    
+    </div><!--
+ --><div class="sidebar">
+        <div class="sidebar__widget-box">
+
+    <h2>Hot Categories</h2>
+    <ul class="category-list">
+                <li>
+            <a href="https://www.fatalerrors.org/a/java">Java</a>
+                            <span>× 321</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/android">Android</a>
+                            <span>× 221</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/linux">Linux</a>
+                            <span>× 182</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/python">Python</a>
+                            <span>× 111</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/mysql">MySQL</a>
+                            <span>× 103</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/programming">Programming</a>
+                            <span>× 101</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/javascript">Javascript</a>
+                            <span>× 98</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/database">Database</a>
+                            <span>× 52</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/big%20data">Big Data</a>
+                            <span>× 45</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/oracle">Oracle</a>
+                            <span>× 45</span>
+                    </li>
+                <li>
+            <a href="https://www.fatalerrors.org/a/ios">iOS</a>
+                            <span>× 43</span>
+                    </li>
+            </ul>
+
+            
+    
+    <h2>Hot Tags</h2>
+    <ul class="category-list">
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/java">Java</a>
+                                    <span>× 8678</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/python">Python</a>
+                                    <span>× 3398</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/algorithm">Algorithm</a>
+                                    <span>× 2157</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/linux">Linux</a>
+                                    <span>× 2069</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/javascript">Javascript</a>
+                                    <span>× 1932</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/data%20structure">data structure</a>
+                                    <span>× 1524</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/spring">Spring</a>
+                                    <span>× 1497</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/c%2B%2B">C++</a>
+                                    <span>× 1439</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/mysql">MySQL</a>
+                                    <span>× 1163</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/database">Database</a>
+                                    <span>× 1138</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/front-end">Front-end</a>
+                                    <span>× 1057</span>
+                            </li>
+                    <li>
+                <a href="https://www.fatalerrors.org/tag/design%20pattern">Design Pattern</a>
+                                    <span>× 1024</span>
+                            </li>
+            </ul>
+            
+        <div class="adsbyvli" data-ad-slot="vi_1739474587" style="width: 300px; height: 250px"></div><script>(vitag.Init = window.vitag.Init || []).push(function(){viAPItag.display("vi_1739474587")})</script>
+    </div>    </div>
+</div>
+
+<div class="footer main">
+    ©2022 <a href="https://www.fatalerrors.org/">fatalerrors.org</a>
+    <script type="application/javascript">
+        document.write('<a href="mai'+'lto:tho'+'masxns'+'@gm'+'ail.c'+'om">Cont'+'act Us</a>');
+    </script><a href="mailto:thomasxns@gmail.com">Contact Us</a>
+</div>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?4ef5f6f24c4e81c1f7f77d7d27d1bebf";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-82284320-2', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+
+</body></html>

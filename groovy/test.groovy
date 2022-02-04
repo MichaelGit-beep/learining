@@ -19,6 +19,5 @@ def suites = [
 suites.each {
     suite, value ->  
         def value1 = "${value['ProjectPath']}"
-        println value1
 }
 

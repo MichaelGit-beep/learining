@@ -1,0 +1,30 @@
+
+1. Binary k3s - 60 Mb
+https://github.com/k3s-io/k3s/releases/tag/v1.23.2+k3s1
+2. Images  k3s-airgap-images-amd64.tar
+https://github.com/k3s-io/k3s/releases/tag/v1.23.2+k3s1
+3. Script 
+https://get.k3s.io/
+
+1. Import image to containerd image list
+sudo mkdir -p /var/lib/rancher/k3s/agent/images/
+sudo cp /root/k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
+
+2. Change permission to k3s installation shell script and binary, then move k3s binary to /usr/local/bin
+sudo chmod a+x /root/k3s /root/k3s-install.sh
+sudo cp /root/k3s /usr/local/bin/
+
+3. Install K3s
+INSTALL_K3S_SKIP_DOWNLOAD=true /root/k3s-install.sh
+
+kubectl file /etc/rancher/k3s/k3s.yaml
+
+k3s kubectl get nodes
+
+Storage local path
+https://bryanbende.com/development/2021/05/15/k3s-raspberry-pi-volumes-storage#:~:text=K3s%20comes%20with%20a%20default,where%20the%20pod%20is%20located.
+
+
+Longhorn
+https://bryanbende.com/development/2021/05/15/k3s-raspberry-pi-volumes-storage#:~:text=K3s%20comes%20with%20a%20default,where%20the%20pod%20is%20located.
+https://longhorn.io/docs/1.2.2/deploy/install/install-with-helm/

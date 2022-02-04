@@ -1,12 +1,12 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	a := [4]string{"5", "6", "7", "8"}
-	for i, v := range a {
-		fmt.Println(i, v)
-	}
+
+	fmt.Println(test(25))
+}
+
+func test(x int) int {
+	return x % 2
 }
