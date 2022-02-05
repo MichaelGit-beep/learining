@@ -1,20 +1,22 @@
-import os
-import json
+class A: 
+    a = 1
+    b = 2
+    def __private(self):
+        print('This is a private method')
+    def update_a(self):
+        A.a += 1
+    def update_b(self):
+        A.b += 1
+    def __str__(self):
+        return 'Private class'
+            
+a = A()
+a.update_a()
+print(A.a)
+b = A()
+print(b.a)
 
-my_headers = os.path.join(os.path.dirname(__file__), "headers.txt")
-with open(my_headers, "r") as f: 
-    opened_file = f.readlines()
 
-
-header = {}
-
-for i in opened_file:
-    tmp_list = i.strip().split(":")
-    if len(tmp_list) > 1:
-        key, value = tmp_list[0], tmp_list[1].lstrip()
-        header[key] = value
-
-
-tmp_json = my_headers = os.path.join(os.path.dirname(__file__), "header.json")
-with open(tmp_json, "a") as f:
-    json.dump(header, f, indent=4)
+        
+    
+    
