@@ -39,10 +39,3 @@ locals {
     pet_prefix = "Mr"
     pet_lenght = 2
 }
-dynamic "ingress" {
-     for_each = var.instances
-     content {
-         from_port = ingress.value
-         to_port = ingress.value
-     }
-}
