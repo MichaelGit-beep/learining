@@ -1,17 +1,24 @@
-def smart_devision(func):
-    
-    def inner(a, b):
-        print(f"Trying to divide {a} to {b}")
-        if b == 0:
-            return None
+import random
 
-        return func(a, b)
-    
+def mathematical(func):
+    def inner(a):
+        print('Hello from inner func')
+        return func(a)
+        
     return inner
+        
+@mathematical
+def convert(a):
+    return ("{:.2f}".format(a))
 
-@smart_devision
-def division(a, b):
-    return a / b
 
-# print(smart_devision(division)(5, 6))
-print(division(5, 0))
+# print(convert(5))
+
+
+some = random.randint(30, 100)
+while some > 20:
+    print(some)
+    some = random.randint(30, 100)
+else:
+    print(f"Finished, some value is {some}")
+    
