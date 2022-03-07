@@ -4,6 +4,9 @@ metadata:
   creationTimestamp: null
   labels:
     app: {{ .Release.Name }}
+    {{ if .Values.orglabel }}
+    organization: {{ .Values.orglabel }}
+    {{ end }}
   name: {{ .Release.Name }}-deployment
 spec:
   replicas: {{ .Values.replicaCount }}
