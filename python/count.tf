@@ -11,5 +11,4 @@ resource "random_pet" "pets"{
     prefix = each.value
     for_each = var.list1
     
-    
 }
