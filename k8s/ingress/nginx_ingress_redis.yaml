@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: bcredis
+  name: bcredis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bcredis
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: bcredis
+    spec:
+      containers:
+      - image: redis
+        name: redis
+        resources: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: bcredis
+  name: bcredis
+spec:
+  ports:
+  - port: 6379
+    protocol: TCP
+    targetPort: 6379
+  selector:
+    app: bcredis
+  type: NodePort
+status:
+  loadBalancer: {}
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-bcredis
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: bcredis.asgard.bc
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bcredis
+            port:
+              number: 6379
