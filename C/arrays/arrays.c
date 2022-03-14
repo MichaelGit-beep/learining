@@ -1,34 +1,30 @@
 #include <stdio.h>
 
+
+void insert_sort(int A[], int N);
+
 int main() {
-    int arr[] = {0, 1, 2, 3, 4, 5};
-    // printf("%d", arr[0]);
+    int N = 5;
+    int arr[5] = {250, 300, 100, 20, 0};
+    insert_sort(arr, 5);
 
-    float numbers[3];
-    numbers[0] = 4.23f;
-    numbers[1] = 5.23f;
-    numbers[2] = 6.23f;
-    // printf("%.2f\n", numbers[0]);
-
-    char word[] = {'s', 'o', 'm', 'e'};
-    
-    char words[] = "Hello World!\n";
-    printf("%c\n", word[0]);
-    printf("%s", words);
-     
-    int size = 3;
-    int second_size = 3;
-    int array[3][3] = {
-        {1,2,3},
-        {4,5,6},
-        {7,8,9}
-    };
-    
-    for (int i = 0; i < 3; i++){
-        for (int j = 0; j < 3; j++){
-            printf("%d\n", array[i][j]);
-        }
+    for (int i = 0; i < 5; i++) {        
+            printf("%d\n", arr[i]);
     }
     
     return 0;
+}
+
+
+void insert_sort(int A[], int N) {
+    for(int i = 1; i < N; ++i) {
+        int k = i;
+        while (k > 0 && A[k-1] > A[k])
+        {
+            int tmp = A[k-1];
+            A[k-1] = A[k];
+            A[k] = tmp;
+            k -= 1;
+        }
+    }
 }
