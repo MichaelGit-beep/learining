@@ -5,5 +5,6 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello From Operator")
+	a := []int{1, 2}
+	fmt.Println(a[0])
 }

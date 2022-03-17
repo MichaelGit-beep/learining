@@ -29,17 +29,20 @@ int main() {
     printf("Result %d\n", res);
 
     // switch
-    int y = 2;
+    int y = 1;
     switch(y) {
         case 1:
             printf("case 1 - y is 1\n", y);
-            break;
+            goto A;
         case 2:
-            printf("case 2 - y is 1\n", y);
+            printf("case 2 - y is 2\n", y);
             break;
         default:
             printf("Default");
     }
+A: 
+    printf("Jumped to A");
+
     return 0;
 
 }
