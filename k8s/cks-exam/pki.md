@@ -26,4 +26,13 @@ openssl req -new -key admin.key -subj "/CN=kube-admin/O=system:admin" -out admin
 openssl x509 req -in admin.csr -signkey ca.key -out admin.crt
 ```
 
- 
+# View Certificate Detail
+```
+openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text -noout 
+``` 
+## Notes
+> All system component like - controller-namager, scheduler should add system: to their /CN to csr "/CN=system:controller-manager" "/CN=system:kube-scheduler"
+>
+> etcd needs its own set of certificates along with its own CA
+>
+> kubelet's certificates should contain in their csr "/CN=system:node:nodename"
