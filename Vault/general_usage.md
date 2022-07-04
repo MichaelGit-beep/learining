@@ -30,6 +30,40 @@ audit      debug      kv         list       monitor    operator   plugin     pri
 ## Check status of Vault server
 >vault status
 
+# **Vault Engine Path**
+```
+This is some kind of plugins htat extend vaults ability. Each engine is a 
+separate instance. Engines refered virtual filesystem. 
+```
+## Enable secret engine at different path 
+>vault secrets enable -path=jsec/ kv
+>
+>vault kv put jsec/secrets var=value
+>
+>vault kv put jsec/general var=value
+>
+>vault kv get jsec/secrets
+>
+>vault kv get jsec/general
+>
+## Check secret in a path
+> vault kv list jsec/
+```
+Keys
+----
+foo
+```
+> vault kv get jsec/foo
+> 
+> vault kv get -field=foo jsec/foo
+
+## Get enabled engines list
+>vault secrets list
+
+## Dissalbe secret - removes all data
+>vault secrets disable moo
+
+<br><br><br><br>
 ## Create secret - Pay attention to existed secret path !!! 
 >vault secrets list
 >
@@ -81,39 +115,7 @@ vaz
 
 
 
-# **Vault Engine Path**
-```
-This is some kind of plugins htat extend vaults ability. Each engine is a 
-separate instance. Engines refered virtual filesystem. 
-```
-## Enable secret engine at different path 
->vault secrets enable -path=jsec/ kv
->
->vault kv put jsec/secrets var=value
->vault kv put jsec/general var=value
->
->vault kv get jsec/secrets
->
->vault kv get jsec/general
->
-## Check secret in a path
-> vault kv list jsec/
-```
-Keys
-----
-foo
-```
-> vault kv get jsec/foo
-> 
-> vault kv get -field=foo jsec/foo
 
-## Get enabled engines list
->vault secrets list
-
-## Dissalbe secret - removes all data
->vault secrets disable moo
-
-<br><br><br><br>
 
 # **Dynamic Secrets** 
 >Dynamicly create IAM User with EC2 Full access 

@@ -12,7 +12,8 @@ longhorn-frontend   ClusterIP   10.98.139.194    <none>        80/TCP      46h
 ## How to use
 - Will be created storage class named longhorn
 - Create PVC. spec.storageClassName need to be specified only if longhorn storageclass is not default
-```
+cat <<EOF | kubectl apply -f -
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -24,9 +25,8 @@ spec:
   resources:
     requests:
       storage: 3Gi
-```
-- Attach this PVC the pod
-```
+---
+# - Attach this PVC the pod
 apiVersion: v1
 kind: Pod
 metadata:
@@ -45,7 +45,7 @@ spec:
     volumeMounts:
     - mountPath: "/mount"
       name: test
-```
+EOF
 
 ## Creating snapshot
 - Click on the name of created volume that is in attached state in longhorn console
