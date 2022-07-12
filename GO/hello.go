@@ -1,11 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 func main() {
-	fmt.Println(test(25))
-}
+	s := make(chan int)
+	go func() {
+		time.Sleep(time.Second * 1)
+		s <- 20
+	}()
 
-func test(x int) int {
-	return x % 2
+	select {
+
+	case a := <-s:
+		// s <- 1
+		fmt.Println(a)
+	default:
+		fmt.Println("Default")
+	}
 }

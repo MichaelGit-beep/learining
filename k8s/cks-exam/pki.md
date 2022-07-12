@@ -7,9 +7,9 @@ openssl genrsa -out ca.key 2048
 ```
 openssl req -new -key ca.key -subj "/CN=KUBERNETES-CA" -out ca.csr
 ```
-- Create signed public key(ca.crt) by signing CSR 
+- Create signed public key(ca.crt) with 60 days validity by signing CSR 
 ```
-openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt
+openssl x509 -req -days 60 -in ca.csr -signkey ca.key -out ca.crt
 ```
 
 # Generate Cluster Admin user certificates
@@ -23,7 +23,7 @@ openssl req -new -key admin.key -subj "/CN=kube-admin/O=system:admin" -out admin
 ```
 - Signing admin CSR with ca.key generated early
 ```
-openssl x509 req -in admin.csr -signkey ca.key -out admin.crt
+openssl x509 -req -days 60 -in admin.csr -signkey ca.key -out admin.crt
 ```
 
 # View Certificate Detail
@@ -49,4 +49,3 @@ openssl req -text -noout -verify -in some.csr
 <hr>
 
 # Certificate API - Approve clients CSR via kubernetes api
-
