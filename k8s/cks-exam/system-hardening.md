@@ -41,9 +41,7 @@ $ strace -p PID
 
 AquaSec Tracee - Program to trace activity of other processes, since it is low-level utility running in kernel, it has a lot of dependencies, easies way is to run in docker.
 ```
-docker run --name tracee --rm --privileged --pid=host \
--v /lib/modules:/lib/modules/:ro -v /usr/src:/usr/src:ro \
--v /tmp/tracee:/tmp/tracee aquasec/tracee:0.4.0 --trace {comm=ls, pid=new, container=new}
+docker run --name tracee --rm --privileged -v /lib/modules/:/lib/modules/:ro -v /usr/src:/usr/src:ro -v /tmp/tracee:/tmp/tracee -it aquasec/tracee:0.4.0 --trace  {comm=ls, pid=new, container=new}
 ```
 
 Restricting SYSCALLS. In linux there is 435 syscalls, but not all of them are vital to every application
