@@ -1,0 +1,67 @@
+---
+apiVersion: v1
+data:
+  mosquitto.conf: |+
+    listener 1883 0.0.0.0
+    protocol mqtt
+    allow_anonymous true
+    listener 9001 0.0.0.0
+    protocol websockets
+
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: mosquitto-conf
+
+---
+# docker run -it -p 1883:1883 -p 9001:9001 -v `pwd`/mosquitto.conf:/mosquitto/config/mosquitto.conf eclipse-mosquitto
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mosquitto
+  name: mosquitto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mosquitto
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: mosquitto
+    spec:
+      volumes: 
+      - name: conf
+        configMap: 
+          name: mosquitto-conf
+      containers:
+      - image: eclipse-mosquitto
+        name: eclipse-mosquitto
+        volumeMounts:
+        - name: conf
+          mountPath: /mosquitto/config/mosquitto.conf
+          subPath: mosquitto.conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: mosquitto
+  name: mosquitto
+spec:
+  ports:
+  - name: mqtt
+    port: 1883
+    protocol: TCP
+    targetPort: 1883
+  - name: websocket
+    port: 9001
+    protocol: TCP
+    targetPort: 9001
+  selector:
+    app: mosquitto
+  type: NodePort
