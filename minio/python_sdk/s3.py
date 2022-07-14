@@ -14,14 +14,13 @@ Bucket create and list section
 '''
 
 BUCKETS = ["zip", "csv", "log"]
-# for bucket in BUCKETS:
-#     client.make_bucket(bucket)
+for bucket in BUCKETS:
+    client.make_bucket(bucket)
+    print(f"Creating bucket {bucket}")
 
 buckets = client.list_buckets()
 for bucket in buckets:
     print(f"Bucket name is : {bucket.name}")
-    for object_ in client.list_objects(bucket.name, prefix="etc/"):
-        print(f"In a bucket {bucket} there is : {object_} object")
 
 
 
@@ -47,8 +46,13 @@ for file in object_to_download:
 '''
 Deletion Section
 '''
+for bucket in BUCKETS:
+    objects_to_wipe = [obj.object_name for obj in client.list_objects(bucket)]
+    for item in objects_to_wipe:
+        client.remove_object(bucket, item)
+        print(f"Deleting\n  Bucket: {bucket}\n  Filename: {item}")
 
 
-client.remove_object(BUCKET,'Result.log')
-print(f"Deleting\n  Bucket: {BUCKET}\n  Filename: Result.log")
-# client.remove_bucket(BUCKET)
+for bucket in BUCKETS:
+    client.remove_bucket(bucket)
+
