@@ -12,7 +12,7 @@ minio/minio server /data --console-address ":9001"
 #  Run minio CLI 
 ```
 $ docker run -it --entrypoint=/bin/sh minio/mc
-$ mc config host add myminio http://192.168.77.101:9000 minio minio123
+$ mc config host add myminio http://10.0.0.241:9000 minio minio123
 
 mc: Configuration written to `/root/.mc/config.json`. Please update your   access credentials.
 mc: Successfully created `/root/.mc/share`.
@@ -30,7 +30,7 @@ mc: Initialized share downloads `/root/.mc/share/downloads.json` file.
 ```
 mc mb myminio/mybucket - MakeBucket, new bucket 
 mc tree myminio - list a tree of s3 server by alias
-mc ls myminio- list all buckets
+mc ls myminio - list all buckets
 mc ls myminio/bucketname - list content of a bucket
 mc rb myminio/mybucket --force(if not empty) - removebucket
 mc cp file.txt myminio/test - copy to bucket 

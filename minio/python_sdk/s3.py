@@ -1,34 +1,58 @@
+import os
 from minio import Minio 
 
 
-BUCKET = "michael"
-
+'''
+Connection section
+'''
 # Create client with access and secret key.
-client = Minio(endpoint="192.168.77.101:9000", access_key="minio", secret_key="minio123", secure=False)
-result = client.fput_object(
-    bucket_name=BUCKET, object_name="D:\\Untitled2.ps1", file_path="D:\\Untitled2.ps1",
-)
-print(
-    "created {0} object; etag: {1}, version-id: {2}".format(
-        result.object_name, result.etag, result.version_id,
-    ),
-)
+client = Minio(endpoint="10.0.0.241:9000", access_key="minio", secret_key="minio123", secure=False)
 
-client.remove_object('michael','install_apache_dockerfile.txt')
+
+'''
+Bucket create and list section
+'''
+
+BUCKETS = ["zip", "csv", "log"]
+for bucket in BUCKETS:
+    client.make_bucket(bucket)
+    print(f"Creating bucket {bucket}")
 
 buckets = client.list_buckets()
 for bucket in buckets:
     print(f"Bucket name is : {bucket.name}")
-    for object_ in client.list_objects(bucket.name, prefix="etc/"):
-        print(f"In a bucket {bucket} there is : {object_} object")
+
+
+
+'''
+Uploading Section
+'''
+files_to_upload = os.listdir("E:\\A40\\Original")
+for file in files_to_upload:
+    client.fput_object(bucket_name=file.split(".")[1], object_name=file, file_path=f"E:\\A40\\Original\\{file}")
+    print(f"Uploading\n  Bucket: {file.split('.')[1]}\n  Filename: E:\\A40\\Original\\{file}")
 
         
-with open("D:\\Git\\Python\\Tools\\file_lists.py", mode="r") as file:
-    files = file.read()
+'''
+Downloading Section
+'''
+BUCKET = "log"
+object_to_download = client.list_objects(bucket_name=BUCKET)
 
-var1 = files.split()
-edited_list = [value.strip() for value in var1]
-print(edited_list)
-        
-for file in edited_list:
-    client.fget_object(bucket_name=BUCKET, object_name=f"etc/{file}", file_path=f"/d/etc/{file}")
+for file in object_to_download:
+    client.fget_object(bucket_name=BUCKET, object_name=file.object_name, file_path=f"d:\\minio\\{file.object_name}")
+    print(f"Downloading\n  Bucket: {BUCKET}\n  Filename: {file.object_name}")
+
+'''
+Deletion Section
+'''
+for bucket in BUCKETS:
+    objects_to_wipe = [obj.object_name for obj in client.list_objects(bucket)]
+    for item in objects_to_wipe:
+        client.remove_object(bucket, item)
+        print(f"Deleting\n  Bucket: {bucket}\n  Filename: {item}")
+
+
+for bucket in BUCKETS:
+    client.remove_bucket(bucket)
+
