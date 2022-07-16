@@ -45,7 +45,5 @@ openssl req -text -noout -verify -in some.csr
 > kubelet's certificates should contain in their csr "/CN=system:node:nodename"
 
 <hr>
-<hr>
-<hr>
 
 # Certificate API - Approve clients CSR via kubernetes api

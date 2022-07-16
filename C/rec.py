@@ -1,13 +1,10 @@
-# import time
+import os 
+# with open(os.path.join(os.path.dirname(__file__), "bin.txt"), mode="wb") as bin:
+#     bin.write(bytearray(10000000000))
 
-# def fib(x):
-#     if x == 1 or x == 0: 
-#         return x
-#     return fib(x-2) + fib(x-1) 
+# print(os.path.getsize(os.path.join(os.path.dirname(__file__), "bin.txt")))
 
-# start = time.perf_counter()
-# print(fib(40))
-# end = time.perf_counter()
-# print(end - start)
-
-print(a := 100 if 1 != 1  else 1)
+try:
+    os.remove(os.path.join(os.path.dirname(__file__), "bin.txt"))
+except FileNotFoundError as e:
+    print(e.errno)

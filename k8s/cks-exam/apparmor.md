@@ -96,6 +96,12 @@ apparmor_parser /etc/apparmor.d/root.add_data.sh
 
 aa-status
 ```
+- Load profile with different mode - enforce, complience, unconfined
+```
+aa-enforce /etc/apparmor.d/sbin.PROGRAM1
+aa-complience /etc/apparmor.d/sbin.PROGRAM1
+aa-unconfined /etc/apparmor.d/sbin.PROGRAM1
+```
 - dissable profile 
 ```
 apparmor_parser -R /etc/apparmor.d/root.add_data.sh
