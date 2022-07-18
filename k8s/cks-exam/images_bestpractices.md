@@ -6,9 +6,15 @@
 5. Keep image smal as possible, do not include into the image tools like wget, curl, package manager, use milti-stage builds.
 6. Distroless docker images - Images that do not contain shell, network tools, text editors, other unwwanted programs. 
 
-# Scan image for vulnerabilities using `trivy`
+# Scan image for CVE vulnerabilities using `trivy`
+- Continiously rescan images
+- Kubernetes Admission COntroller to scan images
+- Integrate scanning into your CI/CD Pipeline
 ```
 $ trivy image httpd
+$ trivy image --sevirity CRITICAL,HIGH httpd
+$ trivy image --ignore-unfixed nginx:1.18.0
+$ trivy image --input images_archive.tar 
 ```
 
 # Image Security
@@ -44,7 +50,7 @@ spec:
 ```
 
 # Whitelist Allowed Registried - ImagePolicyWebhook Admission controller
-
+## [kube-image-bouncer](https://github.com/kainlite/kube-image-bouncer)
 ## Deploy image-policy-webhook server
 1. Create deployment and service for webhook server
 > One of the parameter is image registries whitelist 

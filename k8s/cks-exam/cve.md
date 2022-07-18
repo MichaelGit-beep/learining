@@ -1,0 +1,2 @@
+## Common Vulnerabilities and Exposures `(CVE)` is a list of publicly disclosed information security vulnerabilities and exposures
+### - SVC has sevirity scorring `low`(0.0-3.9), `Medium`(4.0-6.9), `High`(7.0-10.0)
