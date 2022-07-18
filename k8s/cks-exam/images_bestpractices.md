@@ -42,3 +42,112 @@ spec:
     - image: myprivateregistry.com:5000/nginx:alpine
     imagePullPolicy: IfNotPresent
 ```
+
+# Whitelist Allowed Registried - ImagePolicyWebhook Admission controller
+
+## Deploy image-policy-webhook server
+1. Create deployment and service for webhook server
+> One of the parameter is image registries whitelist 
+> - "--registry-whitelist=docker.io,k8s.gcr.io"
+```
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: image-bouncer-webhook
+  name: image-bouncer-webhook
+spec:
+  type: NodePort
+  ports:
+    - name: https
+      port: 443
+      targetPort: 1323
+      protocol: "TCP"
+      nodePort: 30080
+  selector:
+    app: image-bouncer-webhook
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: image-bouncer-webhook
+spec:
+  selector:
+    matchLabels:
+      app: image-bouncer-webhook
+  template:
+    metadata:
+      labels:
+        app: image-bouncer-webhook
+    spec:
+      containers:
+        - name: image-bouncer-webhook
+          imagePullPolicy: Always
+          image: "kainlite/kube-image-bouncer:latest"
+          args:
+            - "--cert=/etc/admission-controller/tls/tls.crt"
+            - "--key=/etc/admission-controller/tls/tls.key"
+            - "--debug"
+            - "--registry-whitelist=docker.io,k8s.gcr.io"
+          volumeMounts:
+            - name: tls
+              mountPath: /etc/admission-controller/tls
+      volumes:
+        - name: tls
+          secret:
+            secretName: tls-image-bouncer-webhook
+```
+2. Create AdmissionConfiguration - configuration for AdmissionController, that contain configuration with endpoint and credentials to ImagePolicyWebhook Server deployed on previous stage. This configuration contains path to kubeconfig, but now kubeconfig to connect to K8S cluster, kubeconfig to connect to ImagePolicyWebhook Server
+```
+cat <<EOF> /etc/kubernetes/pki/admission_configuration.yaml 
+apiVersion: apiserver.config.k8s.io/v1
+kind: AdmissionConfiguration
+plugins:
+- name: ImagePolicyWebhook
+  configuration:
+    imagePolicy:
+      kubeConfigFile: /etc/kubernetes/pki/admission_kube_config.yaml 
+      allowTTL: 50
+      denyTTL: 50
+      retryBackoff: 500
+      defaultAllow: false
+EOF
+```
+> Ensure that you sprcify the rithg port of iMageWebhoookPolice server deployed on stage 1, it should be `NodePort`
+```
+cat <<EOF> /etc/kubernetes/pki/admission_kube_config.yaml 
+apiVersion: v1
+kind: Config
+clusters:
+- cluster:
+    certificate-authority: /etc/kubernetes/pki/server.crt
+    server: https://image-bouncer-webhook:30080/image_policy
+  name: bouncer_webhook
+contexts:
+- context:
+    cluster: bouncer_webhook
+    user: api-server
+  name: bouncer_validator
+current-context: bouncer_validator
+preferences: {}
+users:
+- name: api-server
+  user:
+    client-certificate: /etc/kubernetes/pki/apiserver.crt
+    client-key:  /etc/kubernetes/pki/apiserver.key
+EOF
+```
+3. Edit kube-apiserver manifest at /etc/kubernetes/manifests/kube-apiserver.yaml 
+> Enable ImagePolicyWebhook Plugin
+```
+- --enable-admission-plugins=NodeRestriction,ImagePolicyWebhook
+```
+> Pass assidtional configuration flag and provide config file Created on stage 2
+```
+- --admission-control-config-file=/etc/kubernetes/pki/admission_configuration.yaml
+```
+4. Try to create pod with tag latest - it will be forbidden
+```
+$ kubectl run test --image=httpd
+Error from server (Forbidden): pods "test" is forbidden: image policy webhook backend denied one or more images: Images using latest tag are not allowed
+```

@@ -43,7 +43,7 @@ default allow = false
 allow {
  input.path == "home"
  input.user == "Kedar"
- } 
+} 
 ```
 
 3. Load policy to OPA
