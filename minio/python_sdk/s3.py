@@ -23,7 +23,6 @@ for bucket in buckets:
     print(f"Bucket name is : {bucket.name}")
 
 
-
 '''
 Uploading Section
 '''
