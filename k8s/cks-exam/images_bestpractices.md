@@ -119,7 +119,7 @@ plugins:
       defaultAllow: false
 EOF
 ```
-> Ensure that you sprcify the rithg port of iMageWebhoookPolice server deployed on stage 1, it should be `NodePort`
+> Ensure that you specify the rithg port of iMageWebhoookPolice server deployed on stage 1, it should be `NodePort`
 ```
 cat <<EOF> /etc/kubernetes/pki/admission_kube_config.yaml 
 apiVersion: v1
