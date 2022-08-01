@@ -1,0 +1,35 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+  namespace: mordor
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: mtdoom-np
+  namespace: mordor
+spec:
+  podSelector:
+    matchLabels:
+      app: mtdoom
+  policyTypes:
+  - Ingress
+  ingress:
+   - from:
+     - namespaceSelector:
+         matchLabels:
+           app: frodo
+           kubernetes.io/metadata.name: frodo
+     - podSelector:
+         matchLabels:
+           app: sam
+     ports:
+     - protocol: TCP
+       port: 80
