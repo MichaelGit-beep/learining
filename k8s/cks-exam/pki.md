@@ -47,3 +47,14 @@ openssl req -text -noout -verify -in some.csr
 <hr>
 
 # Certificate API - Approve clients CSR via kubernetes api
+
+
+# Read Demo hoto add user to k8s
+```
+openssl genrsa -out 60099.key 2048
+
+openssl req -new -key 60099.key -out 60099.csr
+
+openssl x509 -req -in 60099.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out 60099.crt -days 500
+````
+
