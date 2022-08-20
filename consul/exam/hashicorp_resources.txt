@@ -1,0 +1,3 @@
+https://learn.hashicorp.com/tutorials/consul/associate-study?in=consul/certification
+
+https://learn.hashicorp.com/tutorials/consul/associate-review?in=consul/certification 
