@@ -21,7 +21,7 @@ Local agent running on a consul node perform healthchecks of:
 - Node-level health checks(If container is running)
 - Application-level health checks(If application is running)
 
-If service health check is failed, trafic will not be sended to this instance, Consul returns endpoints only for healthy instances.
+If service health check is failed, trafic will not be sended to this instance, Consul urns endpoints only for healthy instances.
 
 
 ## `Automate networking`
@@ -148,6 +148,7 @@ Multiple Consul clusters that interracting with different clusters, main purpuse
 ## `Ports`: Default values. Coud be changed. 
 - HTTP API and UI - 8500/tcp
 - LAN Gossip - 8300/tcp 8300/udp
+- LAN Serf - 8301/tcp 8301/udp
 - WAN Gossip - 8302/tcp 8302/udp
 - RPC - 8300/tcp
 - DNS - 8600/tcp 8600/udp
@@ -170,3 +171,15 @@ Is not participate in leader election and not affecting the quorum. Can be sette
 
 ## `Redundancy Zones (Interprise Features)`
 This feature allows to add Non-Voting members, but in case when one of Voting server is going down the non-voting server will be promoted to be voting server and maintain the quorum.
+
+## `Autopilot (Interprise Features)`
+- Dead server cleanup - Automatically
+- Server Stabilization - New Consul server must be healthy for X amount of time before being promoted to a full, voting member(Default 10 sec)
+- Redundancy Zone Tags  
+- Automated Upgrades - Helps to manage servers during upgrade, when new server is added to the cluster, if it's version is greater than old nodes, this node will not be promoted to a voting node, untill amount of nodes with newver version will be equals to nodes wih oldest version. Then all server with new version will promoted to Voting, and vote privilege will be removed from the old servers. 
+- Enabled by default(In ENT edition)
+```
+consul operator autopilit get-config
+consul operator autopulot set-config -cleanup-dead-servers=false
+```
+
