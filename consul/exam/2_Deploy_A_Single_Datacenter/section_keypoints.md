@@ -3,21 +3,29 @@
 ## 2. Consul Agent Configuration
 - Defined in HCL or JSON
 - Consul can't be configured with Envieronment variables, only startup arguments or config file.
-### `Config file`
+### `Config file` - It is possible to assign health checks to node, if check is failed all services on it node consudered failed.
 ```
 $ cat /etc/consul.d/consul.hcl 
 log_level  = "INFO"
-  server = true
-  bootstrap_expect = 1
-  ui_config {
-    enabled = true
-  }
-  datacenter = "consul-cluster"
-  data_dir           = "/opt/consul/data"
+server = true
+bootstrap_expect = 3
+retry_join = ["172.2.2.152", "172.2.2.151"]
+ui_config {
+  enabled = true
+}
+datacenter = "consul-cluster"
+data_dir           = "/opt/consul/data"
 
-  client_addr    = "0.0.0.0"
-  bind_addr      = "10.11.12.8"
-  advertise_addr = "10.11.12.8"
+client_addr    = "0.0.0.0"
+bind_addr      = "10.11.12.8"
+advertise_addr = "10.11.12.8"
+
+check = {
+  id = "web-app"
+  name = "Web App Status"
+  service_id = "web-app"
+  ttl = "30s"
+}
 ```
 ## `Config file fields`
 https://www.consul.io/docs/agent/config/cli-flags

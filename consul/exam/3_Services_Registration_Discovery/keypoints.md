@@ -4,6 +4,7 @@
 ### Table of Content
 1. [Why to Register](#why-to-register)
 2. [How To Register](#how-to-register)
+2. [How to Deregister Service](#how-to-deregister-service)
 3. [Creating Definition File](#creating-definition-file)
 4. [High-Availability and Elasticity](#high-availability-and-elasticity)
 5. [Configuring Health Checks](#configuring-health-checks)
@@ -17,20 +18,24 @@ Each service could be registered within Consul catalog with it endpoint, and hea
 - Register is done by Consul local agent(client)
     - HTTP API  https://www.consul.io/api-docs/agent/service#service-agent-http-api
         ```
-        $ cat service.json
+        curl \
+            --request PUT \
+            http://127.0.0.1:8500/v1/agent/service/register?replace-existing-checks=true --data @- <<EOF
 
         {
-            "service": {
-                "ID": "redis1",
-                "Name": "redis",
-                "Port": 8000
+            "ID": "node03",
+            "Name": "front-end-eCommerce",
+            "Tags": ["primary", "v1"],
+            "Address": "10.67.229.10",
+            "Port": 80,
+            "Check": {
+                "Interval": "10s",
+                "Name": "Check web on port 80",
+                "TCP": "localhost:80"
             }
         }
 
-        $ curl \
-            --request PUT \
-            --data @service.json \
-            http://127.0.0.1:8500/v1/agent/service/register?replace-existing-checks=true
+        EOF
         ```
 
     - Service Definition File(JSON or HCL). 
@@ -42,6 +47,15 @@ Each service could be registered within Consul catalog with it endpoint, and hea
     - Containers is scheduled by K8S
     - Instance is deployed 
     - Jenkins provisions new VMs on a VMware cluster
+## How to Deregister Service
+- CLI `consul services deregister servise.hcl`
+- API 
+```
+curl \
+    --request PUT \
+    http://127.0.0.1:8500/v1/agent/service/deregister/service_id
+```
+- If service was creatied by putting service definition file to consul config dir, need to delete file from there and `consul reload`
 
 ## Creating Definition File
 - Create a file that defines a service to be registered in Consul
@@ -116,6 +130,7 @@ curl http://localhost:8500/v1/catalog/service/web # -- View all instances
 ```
 curl 'http://localhost:8500/v1/health/service/web?passing' # -- view healthy instances only
 ```
+- [Consul catalog API documentation](https://www.consul.io/api-docs/catalog)
 
 ## Prepared Queries
 Allow you to creat and register a more comlex service query so it can be executed later.
@@ -129,9 +144,10 @@ Allow you to creat and register a more comlex service query so it can be execute
 
 ## Create prepared query
 - Define name, and what to lookup, in that case you will query for service namde "front-end-eCommerce", and only for those instancet that have a tags ["v7.05", "production"]. UUID of the query will be printed
+- [Prepared Query Docs](https://www.consul.io/api-docs/query)
 ```
 curl http://127.0.0.1:8500/v1/query \
->     --request POST --data @- <<EOF
+    --request POST --data @- <<EOF
 
 {
   "name": "eCommerce",
@@ -171,6 +187,10 @@ curl http://127.0.0.1:8500/v1/query # Get UUID
 3. Update query 
 ```
 curl --request PUT --data @query_file.json http://127.0.0.1:8500/v1/query/9d985040-b9b9-e4bc-c934-716ffbb3f0e7
+```
+## Delete Prepared Query
+```
+curl http://127.0.0.1:8500/v1/query/UUID --request DELETE
 ```
 ## Execute prepated query
 - ###  DNS: eCommerce.query.consul
