@@ -1,10 +1,12 @@
 package main
 
+import "fmt"
+
 func main() {
-	var x int
-	if b {
-		x = 1
-	} else {
-		x = 0
+	// a := []byte("Hello")
+	b := []byte{'H', 'L'}
+
+	for _, v := range b {
+		fmt.Println(string(v))
 	}
 }
