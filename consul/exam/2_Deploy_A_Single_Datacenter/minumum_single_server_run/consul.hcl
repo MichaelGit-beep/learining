@@ -7,3 +7,4 @@ ui_config   {
 server = true
 bind_addr = "10.0.0.82" # Listen on all IPv4
 bootstrap_expect=1
+enable_local_script_checks = true
