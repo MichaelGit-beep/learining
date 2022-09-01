@@ -114,10 +114,10 @@ Managed primarily using the service-intentions config entries or the UI.
 1. Create intention definition 
 ```
 Kind = "service-intentions"
-Name = "db" # Name of the target service
+Name = "back" # Name of the target service
 Sources = [
 {
-    Name   = "web" # Name of the source service
+    Name   = "front" # Name of the source service
     Action = "deny" # Action applied on source service
 },
 { 
@@ -128,6 +128,10 @@ Sources = [
 ```
 2. Create using CLI 
 ```
+consul config write one.json 
+
+or
+
 consul intention create -file one.json 
 ```
 3. Possible to apply multiple files
