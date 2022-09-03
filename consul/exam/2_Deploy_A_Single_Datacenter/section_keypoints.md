@@ -37,7 +37,7 @@ https://www.consul.io/docs/agent/config/config-files
 - log_level(string) - level to log(trace,debug,info, etc)
 - client_addr - On what IP can recieves the request for API. 
 - bind_addr - Internal consul IP for consul agent, default is 0.0.0.0 however, it will exit with error if multiple IP is found. In that case need to specify one IP.
-- advertise_addr(str) - Waht IP/interface to use for Consul internal communication. IP that advertised to other consul members, default is to match `bind_addr`, however in scenarious where Consul member is using multiple IP, or placed behind NAT need to specify this one explicitly. 
+- advertise_addr(str) - Waht IP/interface to use for Consul internal communication. IP that advertised to other consul members, default is to match `bind_addr`, however in scenarious where Consul member is using multiple IP, or placed behind NAT need to specify this one explicitly, if you contacts other members placed behind nat, you need to specify external NAT address, and configure port forwarding on the NAT to forward traffic to consul internal address. 
 - encrypt(str) - sercret to use for encryption of Consul traffic(gossip)  32-bytes that are Base64-encoded. Could be created with ` consul keygen`
 
 - data-dir - provide a persistent directory for the anget to store state
