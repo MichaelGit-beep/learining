@@ -1,5 +1,7 @@
 # ACL
 
+Tokens and policies could be created from UI,CLI,API
+
 https://www.consul.io/docs/security/acl
 
 https://learn.hashicorp.com/tutorials/consul/access-control-setup-production?in=consul/security
@@ -66,6 +68,7 @@ acl = {
 6. Update default policy to Deny
 
 # Policies
+
 - Named set of rules that a token is bounded py(policies are attached to tokens)
 - Policies can be attached to multiple tokens
 - Multiple policies can be attached to one token
@@ -85,3 +88,140 @@ Global-Management
 - Assigned to the bootstrap/master token upon ACL system bootstrapping process
 
 
+## Policy Control Levels (Permission)
+- `Read` - RO
+- `Write` - RW
+- `Deny` 
+- `List` - List Consul K/V
+
+## [ACL resources Available for Rules `more used `](https://www.consul.io/docs/security/acl/acl-rules)
+- ACL - Operations for management the ACL
+- Agent - Utility operations in the Agent API
+- Events - List and Firing Events in the Event API
+- `KEY` - K/V/ Store Operations
+- Keyring - keyring operations 
+- `Node` - Node-Level Catalog Operations
+- Operator - Cluster-Level Operations
+- `Services` - Service-Level Catalog operations
+- Sessions - Session operations
+- Query - Prepared query oprations
+
+Policy example 
+```
+service "consul-snapshot" {
+  policy = "write"
+}
+
+key "consul-snapshot/lock" {
+  policy = "write"
+}
+
+acl = "write"
+
+key_prefix "vault/" {
+  policy = "write"
+}
+
+# Empty line means ALL
+service_prefix "" { 
+  policy = "read"
+}
+```
+
+# [consul policy cli](https://www.consul.io/commands/acl/policy)
+`consul acl policy`
+- create - create a new policy
+- delete - delete
+- list - list all
+- read - read the detail about the policy
+- update - update a policy(default merges th old and new rules)
+
+```
+$ consul acl policy create -name "acl-replication" -description "Policy capable of replicating ACL policies" -rules 'acl = "read"'
+
+ID:           35b8ecb0-707c-ee18-2002-81b238b54b38
+Name:         acl-replication
+Description:  Policy capable of replicating ACL policies
+Datacenters:
+Rules:
+acl = "read"
+
+$ consul acl policy create -name "replication" -description "Replication" -rules @rules.hcl -valid-datacenter dc1 -valid-datacenter dc2
+
+ID:           ca44555b-a2d8-94de-d763-88caffdaf11f
+Name:         replication
+Description:  Replication
+Datacenters:  dc1, dc2
+Rules:
+acl = "read"
+service_prefix "" {
+   policy = "read"
+   intentions = "read"
+}
+```
+
+# [consul policy api](https://www.consul.io/api-docs/acl/policies)
+
+## Create a Policy for the Anonymous Token 
+Every request without a bearer token used Anonymous token
+- You probably have actions that need to be allowed for anonnymous tokens.
+  - Query services for IP/hosts
+  ```
+  service_prefix "" {
+    policy = "read"
+  }
+  ```
+  - Read a prepared query 
+  ```
+  query_prefix "" {
+    policy = "read"
+  }
+  ```
+  - Not to provide token to run a `consul members command`
+  ```
+  node_prefix "" {
+    policy = "read"
+  }
+  ```
+
+## Create policy for specific Nodes
+If you create a policy for particular node, only this node will be able to use the policy using assosiated token with it, it will secure the access to consul if token will be compromised. 
+```
+node "web-server-1" {
+  policy = "write"
+}
+service_prefix "" {
+  policy = "read"
+}
+```
+
+
+# [Tokens](https://www.consul.io/commands/acl/token)
+Bearer token used to authorize access to consulresources
+- attached to a policy or multiple policies
+- contains:
+  - accessor - name
+  - secretid - actual token
+  - policy set - bounded policy
+  - description 
+
+- `Anonymous token` - Used when no token provided, id 0000000-00-0000-000002
+- `bootstrap token` - master token bounded to global-management policy. Could be reseted. Secret ID always unique
+
+`consul acl token`: clone,create,delete,read,list,update
+
+## Use tokens with CLI
+1. Set the envieronment variable 
+```
+export CONSUL_HTTP_TOKEN=df11b8b8-84b2-6b74-2e76-fa52b254e4c7
+```
+2. Use `-token` argoment with consul command
+```
+consule members -token df11b8b8-84b2-6b74-2e76-fa52b254e4c7
+```
+3. Put token into the file and use `-token-file`
+```
+consul members token file @token.txt
+```
+
+## [Use tokens with API](https://www.consul.io/api-docs#authentication)

@@ -58,3 +58,15 @@ key_file = "/etc/consul.d/my-dc-1-server-consul-0-key.pem"
 ```
 
 5. Start the cluster
+
+# Client configuration
+You can manually distribute client cerficates to every client, or use `auto_encrypt` option, it will distribute certificates automatically and store them in memory. To use this feature need to enable `auto_encrypt` in `server` configuration as well. `verify_incoming` is false since this option is refered to RPC, API, and RAFT traffic, client is not use them, relevant only for servers. 
+```
+verify_incoming = false
+verify_outgoing = true
+verify_server_hostname = true
+ca_file = "/etc/consul.d/consul-agent-ca.pem"
+auto_encrypt = {
+  tls = true
+}
+```
