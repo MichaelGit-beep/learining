@@ -1,3 +1,8 @@
+# Check cluster type(kubeadm/k3s)
+```
+[[ -f /etc/rancher/k3s/k3s.yaml ]] && export KUBECONFIG=/etc/rancher/k3s/k3s.yaml && echo "k3s"
+[[ -f /etc/kubernetes/admin.conf ]] && export KUBECONFIG=/etc/kubernetes/admin.conf && echo "kubeadm"
+```
 
 # Create devuser for 1 yeat with peivileges to briefcam namespace only. 
 ```
@@ -17,21 +22,21 @@ spec:
 EOF
 
 
-k certificate approve devuser
+kubectl certificate approve devuser
 kubectl get csr devuser -o jsonpath='{.status.certificate}'| base64 -d > devuser.crt
 
-k create role devuser --resource=* --verb=* --namespace briefcam
-k create rolebinding devuser --role devuser --user=devuser -n briefcam
+kubectl create role devuser --resource=* --verb=* --namespace briefcam
+kubectl create rolebinding devuser --role devuser --user=devuser -n briefcam
 
-# k config set-credentials devuser --client-key=devuser.key --client-certificate=devuser.crt --embed-certs=true
-# k config set-context devuser --cluster=kubernetes --user=devuser
-# k config use-context devuser
+kubectl config set-credentials devuser --client-key=devuser.key --client-certificate=devuser.crt --embed-certs=true
+kubectl config set-context devuser --cluster=kubernetes --user=devuser
+kubectl config use-context devuser
 ```
 
 # Generate new kubeconfig only for devuser
 ```
-KUBEAPI_PUBLIC_IP=`k cluster-info | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g' | grep -Eo 'https://.*6443$'`
-CA_CERT=`kubectl --kubeconfig=config config view --raw -o=go-template='{{range .clusters}}{{index .cluster "certificate-authority-data"}}{{ end }}'`
+KUBEAPI_PUBLIC_IP=`kubectl cluster-info | sed 's/\x1B\[[0-9;]\{1,\}[A-Za-z]//g' | grep -Eo 'https://.*6443$'`
+CA_CERT=`kubectl config view --raw -o=go-template='{{range .clusters}}{{index .cluster "certificate-authority-data"}}{{ end }}'`
 
 cat <<EOF> config.dev
 apiVersion: v1
