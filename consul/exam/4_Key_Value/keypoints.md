@@ -149,7 +149,7 @@ It is poossible to monitor when changes occurs to KV and then perform some prefi
 - BUild-it to consul
 - Once "View" of data is updated, a specific handeler is invoked
     - Script - Can invoke `shell` command
-    - Can also hip an HTTP endpoint
+    - Can also hit an HTTP endpoint
 - ...or just log in to STDOU
 
 ## Watch Types

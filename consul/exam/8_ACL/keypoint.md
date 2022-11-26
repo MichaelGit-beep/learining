@@ -165,13 +165,13 @@ service_prefix "" {
 ## Create a Policy for the Anonymous Token 
 Every request without a bearer token used Anonymous token
 - You probably have actions that need to be allowed for anonnymous tokens.
-  - Query services for IP/hosts
+  - Query all services for IP/hosts
   ```
   service_prefix "" {
     policy = "read"
   }
   ```
-  - Read a prepared query 
+  - Read all prepared query 
   ```
   query_prefix "" {
     policy = "read"
