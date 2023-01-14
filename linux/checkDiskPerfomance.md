@@ -19,8 +19,11 @@ The average value is 298.7 us (microseconds), so the average latency in our case
 ```
 sar -u CPU
 sar -r MEM
+sar -S SWAP
 sar -d DISK
 sar -h HUMAN
+sar -s SINCE [HH:MM:SS]
+sar -e END [HH:MM:SS]
 ```
 - Simmulate write OPS on disk with DD
 ```
@@ -38,7 +41,10 @@ sar -u 1
 
 - get history info
 ```
-
+sar -h -d -s 04:00:00 -e 04:41:00
+sar -h -r -s 04:00:00 
+sar -h -u -s 04:00:00 
+sar -h -S -s 04:00:00 -e 04:41:00
 ```
 
 - Check disk latency(sar - await, iostat - w_await)
