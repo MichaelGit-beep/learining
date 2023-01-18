@@ -31,6 +31,22 @@ sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl get nodes
 ```
 sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl get pods -n briefcam 
 ```
+
+## Pring NG Logs
+```
+sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl get pods -n briefcam | grep ng-
+> ng-teslap4-bc-osx6-1673958026-77575b5cb6-4lcnk   1/1     Running   0          3m29s
+
+sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl logs -n briefcam ng-teslap4-bc-osx6-1673958026-77575b5cb6-4lcnk
+>
+```
+## Check NG Settings
+```
+sudo KUBECONFIG=/etc/kubernetes/admin.conf  kubectl get cm -n briefcam | grep bc-configs-ng 
+sudo KUBECONFIG=/etc/kubernetes/admin.conf  kubectl get cm -n briefcam -o yaml bc-configs-ng-teslap4-bc-osx6-1673958026
+```
+
+
 ## Get Dashboard Service
 ```
 sudo KUBECONFIG=/etc/kubernetes/admin.conf kubectl get svc -n 
