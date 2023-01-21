@@ -17,6 +17,10 @@ The average value is 298.7 us (microseconds), so the average latency in our case
 
 # Sar
 ```
+sudo sed -i 's/ENABLED.*/ENABLED="true"/'  /etc/default/sysstat
+sudo systemctl restart sysstat.service
+```
+```
 sar -u CPU
 sar -r MEM
 sar -S SWAP
