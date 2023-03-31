@@ -1,0 +1,105 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: demo-app
+  name: demo-app
+  namespace: consul
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+      - image: sanjeevkt720/prometheus-demo
+        imagePullPolicy: Always
+        name: prometheus-demo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: demo-app
+  name: demo-app
+  namespace: consul
+spec:
+  ports:
+  - name: web
+    nodePort: 32397
+    port: 3000
+    protocol: TCP
+    targetPort: 3000
+  selector:
+    app: demo-app
+  type: NodePort
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: demo-app
+  labels:
+    release: prometheus-stack
+    team: frontend
+spec:
+  selector:
+    matchLabels:
+      app: demo-app
+  endpoints:
+  - port: web
+    path: /swagger-stats/metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus-stack
+  name: prometheus-example-rules
+spec:
+  groups:
+  - name: demo-app
+    rules:
+    - alert: LessThenThreeInstancesUp
+      expr: sum(up{job="demo-app"}) < 3
+      labels:
+        job: demo-app
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    release: prometheus-stack
+  name: prometheus-example-rules-1
+spec:
+  groups:
+  - name: demo-app
+    rules:
+    - alert: LessThenTwoInstancesUp
+      expr: sum(up{job="demo-app"}) < 2
+      labels:
+        job: demo-app
+---
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: config-example
+  labels:
+    release: prometheus-stack
+spec:
+  route:
+    groupBy: ['job']
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 12h
+    receiver: 'webhook'
+    matchers:
+    - job: demo-app
+  receivers:
+  - name: 'webhook'
+    webhookConfigs:
+    - url: 'http://example.com/'
