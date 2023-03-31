@@ -10,9 +10,9 @@ certutil -decode .\ExampleSecretFileEncrypted.base64 .\ExampleSecretFileEncrypte
 
 # 2) decryption
 
-aws kms decrypt --ciphertext-blob fileb://ExampleSecretFileEncrypted   --output text --query Plaintext --region us-east-1 > ExampleFileDecrypted.base64  
+aws kms decrypt --ciphertext-blob fileb://blob   --output text --query Plaintext --region us-east-1
 
-# base64 decode for Linux or Mac OS 
+# base64 decode for Linux or Mac OS
 cat ExampleFileDecrypted.base64 | base64 --decode > ExampleFileDecrypted.txt
 
 
