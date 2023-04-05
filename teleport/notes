@@ -1,0 +1,7 @@
+1. Pull Access Execution env image
+    - image: 158666418846.dkr.ecr.us-east-1.amazonaws.com/ax-awx-ee:0c8416408404cc257dcb2be853c1aa910b13e7a5
+        base: 158666418846.dkr.ecr.us-east-1.amazonaws.com/awx-ansible-executioner:f9bf7fb6084d2479c119a4089763fdcd017f9acf
+        repo: https://github.com/Axonius/devops/blob/develop/awx-infra/ax-awx-ee/Dockerfile
+    - teleport pem, is it config map, prebuilt env variable ?
+    - change, anjust, debug contianer ?
+2. Permissions to awx and preferebly to k8s to debug
