@@ -13,6 +13,7 @@ docker exec -it  mongosh mongosh mongodb://mongo:27017
 ```
 show dbs
 use dbname
+show collections
 db.dropDatabase()
 ```
 
