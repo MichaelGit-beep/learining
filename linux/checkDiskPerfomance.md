@@ -25,6 +25,7 @@ sar -u CPU
 sar -r MEM
 sar -S SWAP
 sar -d DISK
+(sar -P ALL) - same as sar -u 
 sar -h HUMAN
 sar -s SINCE [HH:MM:SS]
 sar -e END [HH:MM:SS]
