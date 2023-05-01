@@ -5,4 +5,3 @@ metadata:
   name: awx-demo
 spec:
   service_type: nodeport
-  node_port: 30000
