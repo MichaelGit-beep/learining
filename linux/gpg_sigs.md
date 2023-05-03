@@ -26,9 +26,26 @@ gpg --list-keys
 ```
 gpg --sign file.txt
 ```
+- OPTIONAL: Sign with different key
+```
+gpg --list-secret-keys 
+gpg -u KEYID --sign file.txt
+```
 - OPTIONAL: Create a signed file as a plaintext
 ```
 gpg --output file.sig --clearsign file.txt
+```
+- Verify clearsign
+```
+gpg --verify file.sig
+```
+- OPTIONAL: Create a signed file with deatached signature. Recommended.
+```
+gpg --output file.sig --detach-sig file.txt
+```
+- Verify deatached sig
+```
+gpg --verify file.sig file.txt
 ```
 - OPTIONAL: Create an encrypted signed file. `This will encrypt the file using public key of the reciever, so first need to import public key of the reciever. Then encrypt and sign, this will guaranty that only recipient can verify and decrypt the file.`
 ```
@@ -73,7 +90,11 @@ y
 q
 ```
 
-5. Extract the file. Work the same with encrypted or unencrypted file
+5. Extract the file. Work the same with encrypted or unencrypted file and clearsigned
 ```
 gpg --output validated.txt --decrypt file.txt.gpg
+```
+5.1 Verify detached signature
+```
+gpg --verify file.sig file
 ```
