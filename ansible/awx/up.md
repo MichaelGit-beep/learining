@@ -8,7 +8,6 @@ metadata:
   name: awx-demo
 spec:
   service_type: nodeport
-  nodeport_port: 30000
 EOF
 ```
 ```
@@ -18,8 +17,8 @@ kind: Kustomization
 resources:
   # Find the latest tag here: https://github.com/ansible/awx-operator/releases
   - github.com/ansible/awx-operator/config/default?ref=1.4.0
-  - awx.yaml
-
+ # - awx.yaml
+ # - ingress.yml 
 images:
   - name: quay.io/ansible/awx-operator
     newTag: 1.4.0
@@ -28,9 +27,9 @@ images:
 namespace: awx
 EOF
 ```
-3. Access WEB UI via nodeport
+3. Apply
 ```
-k3snodei:30000
+kubectl kustomize . | kubectl apply -f -
 ```
 4. user `admin` password `6ABQTDSkuszltVNs1UY7WH6tERyZIMaT`
 ```
