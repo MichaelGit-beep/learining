@@ -17,6 +17,8 @@ mkdir docker_offline
 
 sudo yum install --downloadonly --downloaddir=docker_offline docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
+# repotrack docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
 tar czf docker_offline_$(. /etc/os-release && echo ${ID}_${VERSION_ID}).tgz docker_offline
 
 ls docker_offline_$(. /etc/os-release && echo ${ID}_${VERSION_ID}).tgz
