@@ -26,4 +26,10 @@ ls docker_offline_$(. /etc/os-release && echo ${ID}_${VERSION_ID}).tgz
 ```
 tar xzf docker_offline_rhel_9.2.tgz
 sudo rpm -Uvh docker_offline/*.rpm
+
+
+sudo systemctl enable --now docker.service
+sudo usermod -aG docker $USER
+sudo su - $USER
+docker info | grep -i root
 ```
