@@ -41,5 +41,6 @@ sudo find /etc/ -type f -exec grep -l -i "pam_tally" {} \;
 After making these changes, you should be able to proceed with the PAM upgrade without affecting user login functionality.
 
 
-
-
+- sudo apt update
+- sudo apt --fix-broken install
+- sudo apt upgrade -y
