@@ -11,14 +11,19 @@ sudo yum remove docker \
                   docker-engine
 sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-
-
+```
+- Option 1: donwload using yum install
+```
 mkdir docker_offline
 
 sudo yum install --downloadonly --downloaddir=docker_offline docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-
-# repotrack docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
+```
+- Option 2(Prefferable): using repotrack
+```
+sudo repotrack docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+## Create archive with all the dependencies
+```
 tar czf docker_offline_$(. /etc/os-release && echo ${ID}_${VERSION_ID}).tgz docker_offline
 
 ls docker_offline_$(. /etc/os-release && echo ${ID}_${VERSION_ID}).tgz
