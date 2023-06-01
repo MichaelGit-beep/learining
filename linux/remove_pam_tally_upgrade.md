@@ -27,6 +27,11 @@ If you proceed with the upgrade while still including these modules in your PAM 
 
 To address this issue, you need to make the following changes:
 
+
+- Find all the mentions of pam_tally 
+```
+sudo find /etc/ -type f -exec grep -l -i "pam_tally" {} \;
+```
 - Open the PAM configuration file located at /etc/pam.d using a text editor.
 - Look for any lines that include pam_tally or pam_tally2.
 - Comment out or remove those lines from the configuration file.
