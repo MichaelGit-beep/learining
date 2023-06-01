@@ -20,7 +20,10 @@ sudo yum install --downloadonly --downloaddir=docker_offline docker-ce docker-ce
 ```
 - Option 2(Prefferable): using repotrack
 ```
+mkdir docker_offline
+cd docker_offline
 sudo repotrack docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+cd -
 ```
 ## Create archive with all the dependencies
 ```
