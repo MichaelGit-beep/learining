@@ -4,4 +4,5 @@
 4. docker.service, daemon-reload
 5. rootless-docker-with-root.sh
 6. axonius_rootless_wrapper.sh
-7. systemctl start docker.service
+7. /axonius/bin/axonius_docker.sh
+8. systemctl enable --now docker.service

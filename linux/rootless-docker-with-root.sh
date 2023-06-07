@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e
+echo $HOME
 # Docker CE for Linux installation script (Rootless mode)
 #
 # See https://docs.docker.com/go/rootless/ for the
@@ -247,6 +248,8 @@ do_install() {
 	)
 	sed -i 's/if \[ "$(id -u)" = "0" \]/if \[ ! "$(id -u)" = "0" \]/' /$HOME/bin/dockerd-rootless-setuptool.sh
 	sed -i 's/if \[ "$(id -u)" = "0" \]/if \[ ! "$(id -u)" = "0" \]/' /$HOME/bin/dockerd-rootless.sh
+	echo $HOME && echo sleep
+	sleep 5
 	exec_setuptool "$@"
 }
 
