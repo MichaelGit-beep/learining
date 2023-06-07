@@ -20,7 +20,6 @@
  │                   <Ok>                     │
  │
 ```
-
  The message you received indicates that you are using either the pam_tally or pam_tally2 modules in your PAM (Pluggable Authentication Modules) configuration located in /etc/pam.d. However, these modules have been removed from PAM, and you need to remove their usage before upgrading PAM.
 
 If you proceed with the upgrade while still including these modules in your PAM configuration, users will be unable to log into the system. To replace the functionality provided by pam_tally, you should consider using the pam_faillock module.
