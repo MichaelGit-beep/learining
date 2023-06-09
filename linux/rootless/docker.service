@@ -1,6 +1,6 @@
 [Unit]
-Description=Docker Application Container Engine (Rootless)
-Documentation=https://docs.docker.com/go/rootless/
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
 
 [Service]
 ExecStart=/axonius/bin/axonius_docker.sh
@@ -18,7 +18,5 @@ Delegate=yes
 Type=notify
 NotifyAccess=all
 KillMode=mixed
-User=root
-Group=root
 [Install]
 WantedBy=default.target
