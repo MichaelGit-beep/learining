@@ -53,6 +53,5 @@ EOF
 systemctl daemon-reload
 systemctl --now enable axdocker
 
-echo 'export DOCKER_HOST="unix:///axonius/docker/run/docker.sock"' >> .bash_profile && . .bash_profile
-echo 'export PATH=$PATH:/axonius/bin' >> .bash_profile && . .bash_profile
-
+echo 'export DOCKER_HOST="unix:///axonius/docker/run/docker.sock"' >> ~/.bash_profile && . ~/.bash_profile
+echo 'export PATH=$PATH:/axonius/bin' >> ~/.bash_profile && . ~/.bash_profile
