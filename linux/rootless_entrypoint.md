@@ -5,4 +5,5 @@
 5. rootless-docker-with-root.sh
 6. axonius_rootless_wrapper.sh
 7. /axonius/bin/axonius_docker.sh && chmod +x /axonius/bin/axonius_docker.sh
-8. systemctl enable --now docker.service
+8. mkdir -p /axonius/.config/docker && touch  /axonius/.config/docker/daemon.json
+9. systemctl enable --now docker.service
