@@ -1,6 +1,7 @@
 #!/bin/bash
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 setenforce 0 && getenforce && sestatus
+dnf install -y iptables wget vim tmux
 
 wget wget https://download.docker.com/linux/static/stable/x86_64/docker-24.0.2.tgz
 tar xzvf docker-24.0.2.tgz
@@ -25,7 +26,7 @@ cat <<EOF > /axonius/docker/daemon.json
 }
 EOF
 
-cat <<EOF > /lib/systemd/system/axdocker.service
+cat <<EOF > /etc/systemd/system/axdocker.service
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
