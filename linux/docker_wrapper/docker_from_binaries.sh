@@ -13,7 +13,7 @@ function log_info() {
 }
 
 function log_error() {
-  echo -e "${Red}$1${RESET}"
+  echo -e "${RED}$1${RESET}"
 }
 
 function log_green() {
@@ -23,6 +23,12 @@ function log_green() {
 [ $(id -u) != 0 ] && { 
   log_error "Need to run with sudo priviliges" 
   exit 1 
+}
+
+source /etc/os-release
+[ $VERSION_ID != "8.6" ] && {
+  log_error "This installation was tested on RHEL 8.6 only. Script may not work on your system"
+  exit 1
 }
 
 function prereqs() {
