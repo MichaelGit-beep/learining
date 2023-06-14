@@ -36,7 +36,7 @@ function prereqs() {
   tar xzf docker-24.0.2.tgz
 }
 
-log_info "Dissabling selinux, installing prerequisites, downloading docker"
+log_info "Dissabling selinux, installing prerequisites [iptables wget vim tmux], downloading docker binaries"
 prereqs &> install_ax_docker.log || {
   cat install_ax_docker.log
   log_error "Failed to install docker"
@@ -47,7 +47,7 @@ log_info "Installing docker to $DOCKER_DIR" && sleep 3
 log_info "Creating directory struture"
 mkdir -pv ${DOCKER_DIR}/{bin,data,run} 
 mv -v docker/* ${DOCKER_DIR}/bin
-rm -rf docker-24.0.2.tgz docker
+rm -rf docker-24.0.2.tgz* docker
 
 log_info "Creating docker start entrypoint: ${DOCKER_DIR}/bin/axonius_docker"
 cat <<EOF
