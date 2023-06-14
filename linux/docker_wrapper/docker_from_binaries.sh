@@ -121,7 +121,7 @@ cat << EOF
 [In order to interact with docker need to export this envieronment variables]
 
 export DOCKER_HOST="unix://${DOCKER_DIR}/run/docker.sock
-export PATH=$PATH:${DOCKER_DIR}/bin
+export PATH=\$PATH:${DOCKER_DIR}/bin
 
 [To persist this configuration need to update ~/.bashrc or ~/.bash_profile]
 
