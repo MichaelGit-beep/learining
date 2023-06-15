@@ -5,12 +5,12 @@ export PATH=/dd/axonius/bin/python/bin:/dd/axonius/docker/bin/:$PATH
 export DOCKER_HOST=unix:///dd/axonius/docker/run/docker.sock
 
 if [[ -n "$1" && $1 == *python* ]]; then
-        echo "Using $1 python interpriter to run installation"
-        python_interpriter=$1
+        echo "Using $1 python interpreter to run installation"
+        python_interpreter=$1
         shift
-        $python_interpriter __main__.py $@
+        $python_interpreter __main__.py $@
 else
-        echo "Using $(which python3) python interpriter to run installation"
+        echo "Using $(which python3) python interpreter to run installation"
         python3 __main__.py $@
 fi
 
