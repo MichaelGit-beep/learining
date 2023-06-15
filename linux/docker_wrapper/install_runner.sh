@@ -11,5 +11,5 @@ else
         python3 __main__.py $@
 fi
 
-# bash installer.sh -- /dd/axonius/bin/python/bin/python3 --first-time --install-path /dd/axonius
-# bash installer.sh -- --first-time --install-path /dd/axonius
+# bash installer.py -- /dd/axonius/bin/python/bin/python3 --first-time --install-path /dd/axonius
+# bash installer.py -- --first-time --install-path /dd/axonius
