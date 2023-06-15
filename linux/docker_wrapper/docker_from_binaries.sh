@@ -119,10 +119,10 @@ systemctl --now enable axdocker
 
 
 log_green "Installation Completed"
-cat << EOF
+cat << EOF > ${DOCKER_DIR}/docker_readme
 [In order to interact with docker need to export this envieronment variables]
 
-export DOCKER_HOST="unix://${DOCKER_DIR}/run/docker.sock
+export DOCKER_HOST="unix://${DOCKER_DIR}/run/docker.sock"
 export PATH=\$PATH:${DOCKER_DIR}/bin
 
 [To persist this configuration need to update ~/.bashrc or ~/.bash_profile]
@@ -146,3 +146,6 @@ export DOCKER_HOST="unix://${DOCKER_DIR}/run/docker.sock"
 export PATH=\$PATH:${DOCKER_DIR}/bin
 docker run hello-world
 EOF
+
+cat ${DOCKER_DIR}/docker_readme
+log_info "Readme could be found in this path: ${DOCKER_DIR}/docker_readme"
