@@ -1,6 +1,9 @@
 #!/bin/bash -ex
 set -ex
+
 export PATH=/dd/axonius/bin/python/bin:/dd/axonius/docker/bin/:$PATH
+export DOCKER_HOST=unix:///dd/axonius/docker/run/docker.sock
+
 if [[ -n "$1" && $1 == *python* ]]; then
         echo "Using $1 python interpriter to run installation"
         python_interpriter=$1
