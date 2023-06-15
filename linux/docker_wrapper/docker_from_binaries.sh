@@ -43,11 +43,7 @@ function prereqs() {
 }
 
 log_info "Dissabling selinux, installing prerequisites [iptables wget vim tmux], downloading docker binaries"
-prereqs &> install_ax_docker.log || {
-  cat install_ax_docker.log
-  log_error "Failed to install docker"
-  exit 1
-}
+prereqs 
 
 log_info "Installing docker to $DOCKER_DIR" && sleep 3
 log_info "Creating directory struture"
