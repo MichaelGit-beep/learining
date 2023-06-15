@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 set -ex
-export PATH=/dd/axonius/bin/python/bin
+export PATH=/dd/axonius/bin/python/bin:$PATH
 if [[ -n "$1" && $1 == *python* ]]; then
         echo "Using $1 python interpriter to run installation"
         python_interpriter=$1
