@@ -1,6 +1,7 @@
 #!/bin/bash -e
 set -e
 
+
 RED='\033[0;31m'
 Yellow='\033[0;33m'
 RESET='\033[0m'
@@ -31,6 +32,7 @@ source /etc/os-release
   exit 1
 }
 
+
 function prereqs() {
   sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
   setenforce 0 && getenforce && sestatus
@@ -38,6 +40,10 @@ function prereqs() {
 
   tmp=$(echo `realpath $1 2> /dev/null || :`)
   DOCKER_DIR=${tmp:=/dd/axonius/docker}
+  [ $0 == "docker" ] && {
+    log_info "Renaming $0 to -> axonius_docker_installer.sh to avoid conflicts"
+    mv -v $0 axonius_docker_installer.sh
+  }
   wget wget https://download.docker.com/linux/static/stable/x86_64/docker-24.0.2.tgz && sleep 3
   tar xzf docker-24.0.2.tgz
 }
