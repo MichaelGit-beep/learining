@@ -1,0 +1,24 @@
+iptables
+wget
+vim
+tmux
+zlib-devel
+make
+gcc
+
+install.py                      - delete_old_rsyslog_lines() - edit /etc/rsyslog.conf
+install.py                      - # SAAS instance only - edit IPtables rules # Migrate iptables rules after deletion of vpnnet
+install.py                      - Edit logrotate /etc/logrotate.d/axonius_var_log
+install.pu setup_host()         - set_sysctl_value('kernel.pid_max', '64000')
+                                  set_sysctl_value('kernel.threads-max', '200000')
+                                  set_sysctl_value('kernel.panic', '10')
+                                  set_sysctl_value('net.ipv4.conf.all.accept_redirects', '0')
+                                  set_sysctl_value('net.ipv4.conf.default.accept_redirects', '0')
+                                  set_sysctl_value('net.ipv4.conf.all.secure_redirects', '0')
+                                  set_sysctl_value('net.ipv4.conf.default.secure_redirects', '0')
+                                  set_sysctl_value('net.ipv4.conf.all.forwarding', '1')
+                                  set_sysctl_value('net.ipv4.ip_forward', '1')
+                                  set_sysctl_value('vm.overcommit_memory', '1')
+                                  set_sysctl_value('vm.max_map_count', '262144')
+                                  # for_federal - set_sysctl_value('net.ipv6.conf.all.forwarding', '0')
+                                  set_sysctl_value('net.core.somaxconn', str(SOMAXCONN))
