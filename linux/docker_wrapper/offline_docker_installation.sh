@@ -34,8 +34,12 @@ source /etc/os-release
 
 
 function prereqs() {
-  sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
-  setenforce 0 && getenforce && sestatus
+  [ $(getenforce) == "Enforcing" ] && log_error "SElinux is enabled.\nRun the following command to dissable it and rerun the installer:\n\nsetenforce 0 && getenforce && sestatus\nAnd make sure it remain disabled after the restart:\nsed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config"
+  # sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
+  # setenforce 0 && getenforce && sestatus
+  iptables --version || log_error "Make sure iptables installed and configured and rerun the installer"
+
+  # dnf install iptables
   [ $0 == "docker" ] && {
     log_info "Renaming $0 to -> axonius_docker_installer.sh to avoid conflicts"
     mv -v $0 axonius_docker_installer.sh
