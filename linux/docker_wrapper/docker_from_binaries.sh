@@ -94,8 +94,8 @@ cat <<EOF > ${DOCKER_DIR}/daemon.json
 }
 EOF
 
-log_info "Creating systemd service for docker /etc/systemd/system/axdocker.service"
-cat <<EOF > /etc/systemd/system/axdocker.service
+log_info "Creating systemd service for docker /etc/systemd/system/docker.service"
+cat <<EOF > /etc/systemd/system/docker.service
 [Unit]
 Description=Docker Application Container Engine
 Documentation=https://docs.docker.com
@@ -121,7 +121,7 @@ WantedBy=default.target
 EOF
 
 systemctl daemon-reload
-systemctl --now enable axdocker
+systemctl --now enable docker
 
 
 log_green "Installation Completed"
@@ -139,12 +139,12 @@ echo "export PATH=$PATH:${DOCKER_DIR}/bin" >> ~/.bash_profile && . ~/.bash_profi
 
 
 [Start and stop docker with systemd]
-systemctl stop axdocker
-systemctl start axdocker
+systemctl stop docker
+systemctl start docker
 
 
 [View docker logs]
-journalctl -u axdocker
+journalctl -u docker
 
 
 [Quickstart]
