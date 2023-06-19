@@ -165,5 +165,7 @@ export PATH=\$PATH:${DOCKER_DIR}/bin
 EOF
 
 cat ${DOCKER_DIR}/docker_readme
+source ${DOCKER_DIR}/docker_env
+
 log_info "Readme could be found in this path: ${DOCKER_DIR}/docker_readme"
 log_info "Add docker to PATH for current session: source ${DOCKER_DIR}/docker_env"
