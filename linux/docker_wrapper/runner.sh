@@ -1,5 +1,5 @@
 #!/bin/bash -ex
-set -e
+set -ex
 
 . ./offline_docker_installation.sh
 . ./offline_python_unpack.sh

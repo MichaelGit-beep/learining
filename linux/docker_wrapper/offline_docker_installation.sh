@@ -1,6 +1,6 @@
 #!/bin/bash -e
 set -e
-
+set +x
 
 RED='\033[0;31m'
 Yellow='\033[0;33m'

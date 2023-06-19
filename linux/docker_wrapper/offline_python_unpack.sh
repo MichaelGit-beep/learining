@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
+set +x
+
 Yellow='\033[0;33m'
 RESET='\033[0m'
 GREEN='\033[0;32m'
