@@ -44,7 +44,7 @@ function prereqs() {
     log_info "Renaming $0 to -> axonius_docker_installer.sh to avoid conflicts"
     mv -v $0 axonius_docker_installer.sh
   }
-  wget wget https://download.docker.com/linux/static/stable/x86_64/docker-24.0.2.tgz && sleep 3
+  wget https://download.docker.com/linux/static/stable/x86_64/docker-24.0.2.tgz && sleep 3
   tar xzf docker-24.0.2.tgz
 }
 
