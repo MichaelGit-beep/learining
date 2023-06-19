@@ -153,5 +153,11 @@ export PATH=\$PATH:${DOCKER_DIR}/bin
 docker run hello-world
 EOF
 
+cat <<EOF > ${DOCKER_DIR}/docker_env
+export DOCKER_HOST="unix://${DOCKER_DIR}/run/docker.sock"
+export PATH=\$PATH:${DOCKER_DIR}/bin
+EOF
+
 cat ${DOCKER_DIR}/docker_readme
 log_info "Readme could be found in this path: ${DOCKER_DIR}/docker_readme"
+log_info "Add docker to PATH for current session: source ${DOCKER_DIR}/docker_env"
