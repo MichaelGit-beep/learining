@@ -54,7 +54,8 @@ function prereqs() {
   tar xzf docker-24.0.2.tgz
 }
 
-log_info "Dissabling selinux, extracting docker binaries"
+log_info "prerequisites check"
+log_info "extracting docker binaries"
 prereqs
 
 log_info "Installing docker to $DOCKER_DIR" && sleep 3
