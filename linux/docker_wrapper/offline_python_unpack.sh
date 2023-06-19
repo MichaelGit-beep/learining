@@ -16,5 +16,5 @@ log_info "Performing clenup of /dd/axonius/bin/python"
 rm -rf /dd/axonius/bin/python
 mkdir -pv /dd/axonius/bin/
 log_info "Moving Python 3.8.10 amd64 to /dd/axonius/bin/python"
-cp -rv python /dd/axonius/bin/
+cp -r python /dd/axonius/bin/
 log_green "Done"
