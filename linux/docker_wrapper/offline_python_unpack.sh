@@ -18,3 +18,5 @@ mkdir -pv /dd/axonius/bin/
 log_info "Moving Python 3.8.10 amd64 to /dd/axonius/bin/python"
 cp -r python /dd/axonius/bin/
 log_green "Done"
+
+export PATH=/dd/axonius/bin/python/bin:$PATH

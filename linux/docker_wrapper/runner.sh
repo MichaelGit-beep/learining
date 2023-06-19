@@ -1,8 +1,8 @@
 #!/bin/bash -ex
-set -ex
+set -e
 
-./offline_docker_installation.sh
-./offline_python_unpack.sh
+. ./offline_docker_installation.sh
+. ./offline_python_unpack.sh
 
 if [[ -n "$1" && $1 == *python* ]]; then
         echo "Using $1 python interpreter to run installation"
