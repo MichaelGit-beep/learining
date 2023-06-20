@@ -28,8 +28,8 @@ function log_green() {
 
 source /etc/os-release
 [ $VERSION_ID != "8.6" ] && {
-  log_error "This installation was tested on RHEL 8.6 only. Script may not work on your system"
-  exit 1
+  log_error "This installation was tested on RHEL 8.6 only. Script may not work on your system. Pause for 10 sec"
+  sleep 10
 }
 
 
