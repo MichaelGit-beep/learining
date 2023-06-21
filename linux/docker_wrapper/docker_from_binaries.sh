@@ -7,6 +7,7 @@ Yellow='\033[0;33m'
 RESET='\033[0m'
 GREEN='\033[0;32m'
 sec="5 4 3 2 1 0"
+install_path=$1
 clear
 
 function log_info() {
@@ -38,8 +39,7 @@ function prereqs() {
   setenforce 0 && getenforce && sestatus
   dnf install -y iptables wget vim tmux
 
-  tmp=$(echo `realpath $1 2> /dev/null || :`)
-  DOCKER_DIR=${tmp:=/dd/axonius/docker}
+  DOCKER_DIR=${install_path:=/dd/axonius/docker}
   [ $0 == "docker" ] && {
     log_info "Renaming $0 to -> axonius_docker_installer.sh to avoid conflicts"
     mv -v $0 axonius_docker_installer.sh
