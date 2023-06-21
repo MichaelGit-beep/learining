@@ -8,6 +8,7 @@ RESET='\033[0m'
 GREEN='\033[0;32m'
 sec="5 4 3 2 1 0"
 clear
+install_path=$1
 
 function log_info() {
   echo -e "${Yellow}$1${RESET}"
@@ -50,7 +51,7 @@ function prereqs() {
     log_info "Renaming $0 to -> axonius_docker_installer.sh to avoid conflicts"
     mv -v $0 axonius_docker_installer.sh
   }
-  DOCKER_DIR=${tmp:=/dd/axonius/docker}
+  DOCKER_DIR=${install_path:=/dd/axonius/docker}
   tar xzf docker-24.0.2.tgz
 }
 
@@ -58,7 +59,7 @@ log_info "prerequisites check"
 log_info "extracting docker binaries"
 prereqs
 
-log_info "Installing docker to $DOCKER_DIR" && sleep 3
+log_info "Installing docker to $DOCKER_DIR" && sleep 5
 log_info "Creating directory struture if not exist. Perform cleanup if exist"
 rm -rf ${DOCKER_DIR}
 mkdir -pv ${DOCKER_DIR}/{bin,data,run} 
