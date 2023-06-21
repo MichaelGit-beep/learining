@@ -94,6 +94,16 @@ cat <<EOF > ${DOCKER_DIR}/daemon.json
 }
 EOF
 
+log_info "Stopping and masking previous docker installation"
+set -x
+systemctl stop docker.socket &> /dev/null || :
+systemctl disable docker.socket &> /dev/null || :
+systemctl mask docker.socket &> /dev/null || :
+systemctl stop docker.service &> /dev/null || :
+systemctl disable docker.service &> /dev/null || :
+set +x
+
+
 log_info "Creating systemd service for docker /etc/systemd/system/docker.service"
 cat <<EOF > /etc/systemd/system/docker.service
 [Unit]
