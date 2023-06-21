@@ -7,7 +7,6 @@ Yellow='\033[0;33m'
 RESET='\033[0m'
 GREEN='\033[0;32m'
 sec="5 4 3 2 1 0"
-clear
 install_path=$1
 
 function log_info() {
