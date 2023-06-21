@@ -13,7 +13,7 @@ while (($#)); do
                 --install-path)
                 shift
                 axonius_dir=$1
-                if [ $axonius_dir != /* ]; then 
+                if [[ $axonius_dir != /* ]]; then 
                         echo "Make sure you provide absolute path with --install-path"
                         exit 1
                 fi
