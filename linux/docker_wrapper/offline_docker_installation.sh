@@ -35,7 +35,7 @@ source /etc/os-release
 
 function prereqs() {
   [ $(getenforce) == "Enforcing" ] && {
-    log_error "SElinux is enabled.\nRun the following command to dissable it and rerun the installer:\n\nsetenforce 0 && getenforce && sestatus\nAnd make sure it remain disabled after the restart:\nsed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config"
+    log_info "SElinux is enabled.\nRun the following command to dissable it and rerun the installer:\n\nsetenforce 0 && getenforce && sestatus\nAnd make sure it remain disabled after the restart:\nsed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config"
     exit 1
   }
   # sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
