@@ -13,6 +13,10 @@ while (($#)); do
                 --install-path)
                 shift
                 axonius_dir=$1
+                if [ $axonius_dir != /* ]; then 
+                        echo "Make sure you provide absolute path with --install-path"
+                        exit 1
+                fi
                 echo "Creating directory structure $axonius_dir" 
                 mkdir -p $axonius_dir || {
                         echo "Make sure $axonius_dir" is a valid path and rerun the installer
