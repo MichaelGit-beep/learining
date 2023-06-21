@@ -41,7 +41,7 @@ function prereqs() {
   # sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
   # setenforce 0 && getenforce && sestatus
   iptables --version || { 
-    log_error "Make sure iptables installed and configured and rerun the installer"
+    log_info "Make sure iptables installed and configured and rerun the installer"
     exit 1
   }
 
