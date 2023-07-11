@@ -1,3 +1,3 @@
 #!/bin/bash
-export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/axonius/bin:/axonius/bin:/axonius/bin
-dockerd --exec-root /axonius/docker --pidfile /axonius/docker/run/docker.pid --config-file /axonius/docker/daemon.json
+export PATH=$PATH:/bb/axonius/docker/bin
+dockerd --exec-root /bb/axonius/docker --pidfile /bb/axonius/docker/run/docker.pid --config-file /bb/axonius/docker/daemon.json
