@@ -11,17 +11,12 @@ sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/dock
 
 docker_pkg="docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
 yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve $docker_pkg
+rm -f docker_deps.txt
 for docker_dep in $docker_pkg; do
-    rm -f docker_deps.txt
     echo "processing $docker_dep"
     deps=`yum -q deplist $docker_dep | grep provider | sed 's/.*provider: //g' | uniq`
     for i in $deps; do echo $i >> docker_deps.txt; done
-    for docker_dep_dep in $deps; do
-        echo "processing $docker_dep_dep"
-        deps=`yum -q deplist $docker_dep_dep | grep provider | sed 's/.*provider: //g' | uniq`
-        for i in $deps; do echo $i >> docker_deps.txt; done
-    done
-    all_pkg=`cat docker_deps.txt | sort -u`
-    echo "Downloading `cat docker_deps.txt | sort -u | wc -l` packages"
-    yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve $all_pkg
 done
+all_pkg=`cat docker_deps.txt | sort -u`
+echo "Downloading `cat docker_deps.txt | sort -u | wc -l` packages"
+yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve $all_pkg
