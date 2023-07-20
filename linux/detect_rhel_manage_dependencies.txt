@@ -1,0 +1,3 @@
+rpm -q --requires PKG
+yum -q deplist PKG
+repoquery --requires --resolve PKG

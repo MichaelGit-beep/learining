@@ -9,11 +9,17 @@ sudo yum remove docker \
 sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
-yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin 
-for i in `ls`; do
-    packages=$(repoquery --requires --resolve $i 2> /dev/null | grep -Ev '^$' | grep -Ev 'Unable|Mana|ser')
-    for i in  $packages; do 
-        echo $i
-        yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve $i ||: 
+docker_pkg="docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
+yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve $docker_pkg
+for docker_dep in $docker_pkg; do
+    echo "processing $docker_dep"
+    deps=`yum -q deplist $docker_dep | grep provider | sed 's/.*provider: //g' | uniq`
+    yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve $deps
+    for i in $deps; do echo $i >> docker_deps.txt; done
+    for docker_dep_dep in $deps; do
+        echo "processing $docker_dep_dep"
+        deps=`yum -q deplist $docker_dep_dep | grep provider | sed 's/.*provider: //g' | uniq`
+        for i in $deps; do echo $i >> docker_deps_deps.txt; done
+        yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve $docker_dep_dep
     done
 done
