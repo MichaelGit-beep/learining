@@ -21,7 +21,7 @@ for docker_dep in $docker_pkg; do
         deps=`yum -q deplist $docker_dep_dep | grep provider | sed 's/.*provider: //g' | uniq`
         for i in $deps; do echo $i >> docker_deps.txt; done
     done
-    all_pkg=`cat docker_deps.txt | uniq`
-    echo "Downloading `cat docker_deps.txt | uniq | wc -l` packages"
+    all_pkg=`cat docker_deps.txt | sort -u`
+    echo "Downloading `cat docker_deps.txt | sort -u | wc -l` packages"
     yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve $all_pkg
 done
