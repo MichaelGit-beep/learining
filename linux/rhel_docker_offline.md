@@ -35,8 +35,14 @@ ls docker_offline_$(. /etc/os-release && echo ${ID}_${VERSION_ID}).tgz
 ## Install offline package
 ```
 tar xzf docker_offline_rhel_9.2.tgz
-sudo rpm -Uvh --replacepkgs --nosignature docker_offline/*.rpm
-
+sudo rpm -Uvh --replacepkgs --oldpackage --nosignature docker_offline/*.rpm
+###!!! In Case you will have conflicts of installed package with the same package that is already installed. 
+### Run yum remove <conflicted package name>
+### Exapmle: 
+## error: Failed dependencies:
+## 	containerd conflicts with containerd.io-1.6.21-3.1.el8.x86_64
+## 	containerd conflicts with (installed) containerd.io-1.6.21-3.1.el8.x86_64
+# Sollution yum remove containerd and rerun sudo rpm -Uvh --replacepkgs --oldpackage --nosignature docker_offline/*.rpm
 
 sudo systemctl enable --now docker.service
 sudo usermod -aG docker $USER
