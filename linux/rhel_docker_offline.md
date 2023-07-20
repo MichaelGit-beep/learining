@@ -35,7 +35,7 @@ ls docker_offline_$(. /etc/os-release && echo ${ID}_${VERSION_ID}).tgz
 ## Install offline package
 ```
 tar xzf docker_offline_rhel_9.2.tgz
-sudo rpm -Uvh --nosignature docker_offline/*.rpm
+sudo rpm -Uvh --replacepkgs --nosignature docker_offline/*.rpm
 
 
 sudo systemctl enable --now docker.service
