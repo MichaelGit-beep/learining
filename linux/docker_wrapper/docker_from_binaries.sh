@@ -37,7 +37,7 @@ source /etc/os-release
 function prereqs() {
   sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
   setenforce 0 && getenforce && sestatus
-  dnf install -y iptables wget vim tmux
+  # dnf install -y iptables wget vim tmux
 
   DOCKER_DIR=${install_path:=/dd/axonius/docker}
   [ $0 == "docker" ] && {

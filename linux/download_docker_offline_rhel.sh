@@ -20,3 +20,6 @@ done
 all_pkg=`cat docker_deps.txt | sort -u`
 echo "Downloading `cat docker_deps.txt | sort -u | wc -l` packages"
 yumdownloader --obsoletes --downloadonly --allowerasing -y --resolve $all_pkg
+
+
+sudo rpm -Uvh --replacepkgs --oldpackage --nosignature *.rpm
