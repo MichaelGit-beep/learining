@@ -1,0 +1,7 @@
+ 
+docker run -it --entrypoint sh akicontport/cpurunner 
+apk update
+apk add stress-ng
+ulimit -v $((1024*1024)) # Set ulimit to use 1GB RAM
+stress-ng --vm-bytes 500M --vm-keep -m 1
+stress-ng --vm 1 --vm-bytes 64M

@@ -1,0 +1,4 @@
+export TERM=xterm-256color
+# Set colorful prompt
+PS1='\[\e[1;32m\]\u@\h\[\e[m\]:\[\e[1;34m\]\w\[\e[m\]\$ '
+alias grep='grep --color=auto'
