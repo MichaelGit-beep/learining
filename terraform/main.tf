@@ -1,16 +1,10 @@
-# module "moda" {
-#     source = "./modules/modulea"
-#     pet1 = "ImportedA"
-# }
-
-# output "moda_out" {
-#     value = module.moda.pet1_id
-# }
-variable "var1" {
-    type = string
-    default = "win"
+module "example_module" {
+  source = "./modules/modulea"
 }
 
-resource "random_pet" "p1" {
-    prefix = var.var1 == "win" ? var.var1 : "lin"
+output "frommodule" {
+    value = module.example_module.pet1_id
+}
+output "frommodule2" {
+    value = module.example_module.random_pet.pet1.id
 }

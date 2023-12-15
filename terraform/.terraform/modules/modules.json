@@ -1,1 +1,1 @@
-{"Modules":[{"Key":"moda","Source":"./modules/modulea","Dir":"modules/modulea"},{"Key":"","Source":"","Dir":"."}]}
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"example_module","Source":"./modules/modulea","Dir":"modules/modulea"},{"Key":"moda","Source":"./modules/modulea","Dir":"modules/modulea"}]}
