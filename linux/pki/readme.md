@@ -10,7 +10,7 @@ openssl req -new -key ca.key -subj "/CN=KUBERNETES-CA" -out ca.csr
 ```
 openssl x509 -req -days 60 -in ca.csr -signkey ca.key -out ca.crt 
 ```
-- Create self signed certificate without creating csr(MUST if needed to add CA:TRUE extention)
+- Create self signed certificate without creating csr(MUST if you generating CA, as CA:TRUE extention is mandatory for CA)
 ```
 openssl req -new -x509 -extensions v3_ca -days 3000 -subj "/CN=KUBERNETES-CA" -key ca.key -out ca.crt
 ```
