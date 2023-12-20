@@ -29,6 +29,10 @@ openssl req -new -key client.key -subj "/CN=client" -out client.csr
 openssl x509 -req -days 60 -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt
 ```
 
+- View CSR Detail
+```
+openssl req -text -noout -verify -in client.csr
+``` 
 - Check client's certificate details and signature
 ```
 openssl x509 -in client.crt -text -noout
