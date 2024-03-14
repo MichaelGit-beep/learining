@@ -18,7 +18,7 @@ db.collection.drop()
 db.dropDatabase()
 ```
 
-## Work with collections
+## Work with collections - (in this example - 'users' is a collection name)
 ```
 show collections
 
