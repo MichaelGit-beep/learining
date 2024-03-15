@@ -54,7 +54,6 @@ db.users.find({ age: { $exists: true, $gt: 0} })
 db.users.find({ $or: [ {age: {$gt: 0}}, {age: {$exists: true}} ] })
 db.users.find({ age: { $not: {$exists: true } } })
 
-
 db.users.insertMany([{name: "Michael", balance: 100, debt: 200}, {name: "Jris", balance: 20, debt: 0}])
 db.users.find({ $expr: { $gt: ["$debt", "$balance"]}})
 
@@ -62,6 +61,7 @@ db.users.insertOne({ streets: {main:["lipov", "gaga"], secondary: "thanK" }})
 db.users.find({ "streets.main" : { $exists: true }})
 
 db.users.countDocuments() # Count all docs
+db.users.find({"name": {$exists: true}}, {"second_name": 1, "age": 1, "_id": 0}) # Show only second_name and age for all the docs that have 'name'
 ```
 
 # Update documents
