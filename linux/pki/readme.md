@@ -36,5 +36,5 @@ openssl req -text -noout -verify -in client.csr
 - Check client's certificate details and signature
 ```
 openssl x509 -in client.crt -text -noout
-openssl verify  -CAfile ca.crt client.crt 
+openssl verify  -CAfile ca.crt client.crt
 ```
