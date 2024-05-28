@@ -1,0 +1,6 @@
+# Add Ubuntu’s Default Repositories
+sudo add-apt-repository main
+sudo add-apt-repository universe
+sudo add-apt-repository multiverse
+
+sudo add-apt-repository restricted

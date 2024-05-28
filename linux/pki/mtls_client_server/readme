@@ -1,0 +1,11 @@
+openssl req -x509 -nodes -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 \
+-subj "/CN=YourCommonName/O=YourOrganization/C=US" \
+-addext "subjectAltName = DNS:localhost"
+
+
+cd mtls_client_server
+go run server/main.go
+go run client/main.go
+
+
+curl --cert cert.pem --key key.pem --cacert cert.pem https://localhost:8443/hello

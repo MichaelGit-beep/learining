@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: s3uploader
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::811384899323:role/EKS_S3_RO
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: s3debug
+  name: s3debug
+spec:
+  containers:
+  - command:
+    - sleep
+    - "5000"
+    image: kotaicode/ubuntu-devops
+    name: s3debug
+  serviceAccountName: s3uploader
+  

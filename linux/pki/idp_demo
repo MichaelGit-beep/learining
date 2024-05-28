@@ -1,0 +1,12 @@
+
+
+on client:
+openssl req -text -noout -verify -in /axonius/pki/axonius_client.csr
+openssl x509 -in /axonius/pki/axonius_client.crt -text -noout
+
+
+on server:
+
+rm components/cert-handler/test_assets/test_client.pem
+echo '' | base64 -d > components/cert-handler/test_assets/test_client.pem
+openssl verify  -CAfile components/cert-handler/test_assets/test_ca.pem components/cert-handler/test_assets/test_client.pem

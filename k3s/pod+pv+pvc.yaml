@@ -2,12 +2,11 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: local-path-pvc
+  name: gp2vol
   namespace: default
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: local-path
   resources:
     requests:
       storage: 1Gi
@@ -23,12 +22,12 @@ spec:
     image: nginx:stable-alpine
     imagePullPolicy: IfNotPresent
     volumeMounts:
-    - name: local-path-pvc
+    - name: vol
       mountPath: /data
     ports:
     - containerPort: 80
   volumes:
-  - name: local-path-pvc
+  - name: vol
     persistentVolumeClaim:
-      claimName: local-path-pvc
+      claimName: gp2vol
 
