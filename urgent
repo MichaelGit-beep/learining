@@ -1,0 +1,4 @@
+1. Cloudformation:
+    - how to detect and remidiate exact drift
+    - how to force reapply and resolve all changes
+    - if I delete resource and apply the changes with SAM - resource isn't created
