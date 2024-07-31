@@ -28,6 +28,7 @@ func main() {
 	client := &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{
+				// InsecureSkipVerify: true,
 				RootCAs:      caCertPool,
 				Certificates: []tls.Certificate{cert},
 			},
