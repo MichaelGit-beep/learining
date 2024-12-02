@@ -35,6 +35,14 @@ openssl req -text -noout -verify -in client.csr
 ``` 
 - Check client's certificate details and signature
 ```
-openssl x509 -in client.crt -text -noout
+openssl x509 -in certs/external-public-cert.pem -text -noout
 openssl verify  -CAfile ca.crt client.crt
+```
+- Extract public key from signed cert 
+```
+openssl x509 -in client.crt -pubkey -noout
+```
+- Generate public key from private
+```
+openssl ec -in ca.key -pubout
 ```
