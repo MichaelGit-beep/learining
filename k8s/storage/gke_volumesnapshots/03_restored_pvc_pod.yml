@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: restored-test-m-volume
+  namespace: xdr-st
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  dataSource:
+    name: test-m-volumeshapshot
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
+  storageClassName: ssd-storage-csi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restored-mypod
+spec:
+  containers:
+    - name: myfrontend
+      image: nginx
+      volumeMounts:
+      - mountPath: "/var/www/html"
+        name: mypd
+  volumes:
+    - name: mypd
+      persistentVolumeClaim:
+        claimName: restored-test-m-volume

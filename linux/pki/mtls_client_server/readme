@@ -9,3 +9,4 @@ go run client/main.go
 
 
 curl --cert cert.pem --key key.pem --cacert cert.pem https://localhost:8443/hello
+curl -k --cert cert.pem --key key.pem https://localhost:8443/hello # to not validate server certs
