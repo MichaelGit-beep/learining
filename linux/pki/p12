@@ -1,2 +1,4 @@
 # Generate p12 cert for browser
 openssl pkcs12 -export -inkey key.pem -in cert.pem -out keychain.p12
+# Check the details 
+openssl pkcs12 -info -in keychain.p12
