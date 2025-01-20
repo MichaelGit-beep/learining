@@ -1,0 +1,39 @@
+---
+apiVersion: mongodbcommunity.mongodb.com/v1
+kind: MongoDBCommunity
+metadata:
+  name: mongodb-aws
+spec:
+  members: 3
+  type: ReplicaSet
+  version: "6.0.5"
+  security:
+    authentication:
+      modes: [ "SCRAM" ]
+  users:
+  - name: admin
+    db: admin
+    passwordSecretRef:
+      # a reference to the secret that will be used to generate the user's password
+      name: staging-user
+    roles:
+    - name: clusterAdmin
+      db: admin
+    - name: userAdminAnyDatabase
+      db: admin
+    - name: root
+      db: admin
+    scramCredentialsSecretName: my-scram
+  additionalMongodConfig:
+    storage.wiredTiger.engineConfig.journalCompressor: zlib
+
+# the user credentials will be generated from this secret
+# once the credentials are generated, this secret is no longer required
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: staging-user
+type: Opaque
+stringData:
+  password: admin

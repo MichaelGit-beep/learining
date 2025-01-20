@@ -10,3 +10,8 @@ helm template community-operator
 helm install community-operator mongodb/community-operator --namespace mongodb --create-namespace
 # or
 helm install mongo-community-operator community-operator --namespace mongodb --create-namespace 
+
+k get secret mongodb-aws-admin-admin -o json | jq -r '.data | with_entries(.value |= @base64d)'
+!!!!!! some client libraries and mongosh may not connect properly to this URL "mongodb+srv://..." then replace it with "mongodb://..."
+
+#### 

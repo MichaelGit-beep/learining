@@ -1,7 +1,7 @@
 import pymongo
 
 myclient = pymongo.MongoClient(
-    "mongodb://my-user:admin@localhost:27017/admin?replicaSet=example-mongodb&ssl=false"
+    "mongodb://admin:admin@mongodb-aws-svc.mongodb.svc.cluster.local/admin?replicaSet=mongodb-aws&ssl=false"
 )
 
 mycol = myclient["newdb"]["customers"]
