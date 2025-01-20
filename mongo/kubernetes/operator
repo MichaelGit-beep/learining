@@ -7,10 +7,11 @@ helm pull mongodb/community-operator --untar
 
 helm template community-operator
 
-helm install community-operator mongodb/community-operator --namespace mongodb --create-namespace
-# or
-helm install mongo-community-operator community-operator --namespace mongodb --create-namespace 
+helm install mongo-community-operator community-operator --namespace aporeto-svcs --create-namespace 
+# OR(if you have pulled the chart to local fs)
+helm install community-operator mongodb/community-operator --namespace aporeto-svcs --create-namespace
 
+# fetch connection string
 k get secret mongodb-aws-admin-admin -o json | jq -r '.data | with_entries(.value |= @base64d)'
 !!!!!! some client libraries and mongosh may not connect properly to this URL "mongodb+srv://..." then replace it with "mongodb://..."
 
