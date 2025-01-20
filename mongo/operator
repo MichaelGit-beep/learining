@@ -1,0 +1,12 @@
+helm repo add mongodb https://mongodb.github.io/helm-charts
+helm repo update
+helm repo ls 
+helm search repo mongodb
+
+helm pull mongodb/community-operator --untar
+
+helm template community-operator
+
+helm install community-operator mongodb/community-operator --namespace mongodb --create-namespace
+# or
+helm install mongo-community-operator community-operator --namespace mongodb --create-namespace 
